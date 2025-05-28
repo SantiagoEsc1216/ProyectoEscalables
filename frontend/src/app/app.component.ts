@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from './services/api.service';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
-  template: `<h1>{{ mensaje }}</h1>`
+  imports:[RouterOutlet],
+  templateUrl: './app.component.html'
 })
 export class AppComponent implements OnInit {
   mensaje = 'Cargando...';
@@ -11,9 +13,6 @@ export class AppComponent implements OnInit {
   constructor(private api: ApiService) { }
 
   ngOnInit() {
-    this.api.getSaludo().subscribe({
-      next: (data) => this.mensaje = data.mensaje,
-      error: (err) => this.mensaje = 'Error al conectar con el backend'
-    });
+
   }
 }
