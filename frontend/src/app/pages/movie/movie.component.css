@@ -19,11 +19,12 @@
   display: flex;
   align-items: center;
   margin-bottom: 1.5rem;
+  gap: 1rem;
 }
 
 .rating-label {
-  margin-right: 1rem;
   font-weight: bold;
+  color: var(--text-light);
 }
 
 .stars {
@@ -41,8 +42,7 @@
 }
 
 .rating-value {
-  margin-left: 0.5rem;
-  color: #666;
+  color: var(--text-gray);
 }
 
 .movie-info {
@@ -130,13 +130,8 @@
   gap: 0.25rem;
 }
 
-.review-rating i {
-  color: #ddd;
-  font-size: 1rem;
-}
-
-.review-rating i.filled {
-  color: #ffc107;
+.review-rating ::ng-deep .star {
+  font-size: 1.2rem;
 }
 
 .review-date {
@@ -147,6 +142,103 @@
 
 .review-comment {
   color: #555;
+  line-height: 1.5;
+}
+
+/* Review Form */
+.review-form-container {
+  background: var(--card-bg);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  border: 1px solid var(--purple);
+}
+
+.review-form-container h3 {
+  color: var(--text-light);
+  margin-bottom: 1.5rem;
+}
+
+.review-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-group label {
+  color: var(--text-light);
+  font-weight: 500;
+}
+
+.form-control {
+  background-color: var(--background-dark);
+  border: 1px solid var(--purple);
+  color: var(--text-light);
+  padding: 0.75rem;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.form-control:focus {
+  border-color: var(--accent-yellow);
+  box-shadow: 0 0 0 0.2rem rgba(255, 215, 0, 0.25);
+}
+
+.review-message {
+  margin-bottom: 2rem;
+}
+
+.alert-info {
+  background-color: var(--dark-blue);
+  border-color: var(--purple);
+  color: var(--text-light);
+  padding: 1rem;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.alert-info i {
+  color: var(--accent-yellow);
+}
+
+/* Existing review cards styles */
+.review-card {
+  background: var(--card-bg);
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--purple);
+  margin-bottom: 1rem;
+}
+
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.review-header h4 {
+  margin: 0;
+  color: var(--text-light);
+}
+
+.review-date {
+  color: var(--text-gray);
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+}
+
+.review-comment {
+  color: var(--text-light);
   line-height: 1.5;
 }
 

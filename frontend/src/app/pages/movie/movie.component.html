@@ -9,10 +9,9 @@
         <h1 class="movie-title">{{movie.title}}</h1>
         <div class="movie-rating">
           <span class="rating-label">Rating:</span>
-          <div class="stars">
-            <i class="fas fa-star" *ngFor="let star of [1,2,3,4,5]" 
-               [class.filled]="star <= averageRating"></i>
-          </div>
+          <ngb-rating [rate]="averageRating" [readonly]="true" [max]="5" class="stars"
+            style="color: var(--accent-yellow);">
+          </ngb-rating>
           <span class="rating-value">({{averageRating.toFixed(1)}})</span>
         </div>
         <div class="movie-info">
@@ -36,7 +35,7 @@
               <h3>{{formatDate(schedule.date)}}</h3>
               <p class="schedule-time">{{formatTime(schedule.hour)}}</p>
               <p class="schedule-room">Sala {{schedule.room}}</p>
-              <button class="btn btn-primary">
+              <button class="btn btn-primary" (click)="selectSeats(schedule.id)">
                 Seleccionar Asientos
               </button>
             </div>
@@ -57,12 +56,43 @@
       <a ngbNavLink>Reseñas</a>
       <ng-template ngbNavContent>
         <div class="reviews-container">
+          <!-- Formulario de Reseña -->
+          <div class="review-form-container" *ngIf="canReview">
+            <h3>Escribe tu Reseña</h3>
+            <form [formGroup]="reviewForm" (ngSubmit)="submitReview()" class="review-form">
+              <div class="form-group">
+                <label for="rating">Calificación:</label>
+                <ngb-rating formControlName="rate" [max]="5" style="color: var(--accent-yellow);">
+                </ngb-rating>
+              </div>
+              <div class="form-group">
+                <label for="comment">Comentario:</label>
+                <textarea id="comment" formControlName="comment" class="form-control" rows="4"
+                  placeholder="Escribe tu opinión sobre la película (mínimo 10 caracteres)">
+                </textarea>
+              </div>
+              <button type="submit" class="btn btn-primary" [disabled]="!reviewForm.valid">
+                Enviar Reseña
+              </button>
+            </form>
+          </div>
+
+          <!-- Mensaje cuando no puede reseñar -->
+          <div class="review-message" *ngIf="!canReview">
+            <div class="alert alert-info">
+              <i class="fas fa-info-circle"></i>
+              Solo puedes escribir una reseña después de haber visto la película.
+              Compra tus boletos para poder compartir tu opinión.
+            </div>
+          </div>
+
+          <!-- Lista de Reseñas -->
           <div class="review-card" *ngFor="let review of reviews">
             <div class="review-header">
               <h4>{{review.user.name}}</h4>
               <div class="review-rating">
-                <i class="fas fa-star" *ngFor="let star of [1,2,3,4,5]" 
-                   [class.filled]="star <= review.rate"></i>
+                <ngb-rating [rate]="review.rate" [readonly]="true" [max]="5" style="color: var(--accent-yellow);">
+                </ngb-rating>
               </div>
             </div>
             <p class="review-date">{{review.date | date:'longDate'}}</p>

@@ -1,4 +1,102 @@
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+:root {
+    --dark-blue: #1a1b4b;
+    --purple: #6a1b9a;
+    --accent-yellow: #ffd700;
+    --text-light: #ffffff;
+    --text-gray: #b3b3b3;
+    --background-dark: #121212;
+    --card-bg: #1e1e1e;
+}
+
+html,
+body {
+    height: 100%;
+    background-color: var(--background-dark);
+    color: var(--text-light);
+}
+
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+/* Estilos para componentes comunes */
+.card {
+    background-color: var(--card-bg) !important;
+    border: 1px solid var(--purple);
+    color: var(--text-light);
+}
+
+.btn-primary {
+    background-color: var(--dark-blue) !important;
+    border-color: var(--purple) !important;
+}
+
+.btn-primary:hover {
+    background-color: var(--purple) !important;
+}
+
+.btn-accent {
+    background-color: var(--accent-yellow) !important;
+    color: var(--dark-blue) !important;
+    border: none !important;
+}
+
+.btn-accent:hover {
+    background-color: #ffed4a !important;
+}
+
+/* Estilos para inputs y formularios */
+.form-control {
+    background-color: var(--card-bg) !important;
+    border: 1px solid var(--purple) !important;
+    color: var(--text-light) !important;
+}
+
+.form-control:focus {
+    background-color: var(--card-bg) !important;
+    border-color: var(--accent-yellow) !important;
+    color: var(--text-light) !important;
+    box-shadow: 0 0 0 0.25rem rgba(255, 215, 0, 0.25) !important;
+}
+
+/* Estilos para enlaces */
+a {
+    color: var(--accent-yellow);
+    text-decoration: none;
+}
+
+a:hover {
+    color: #ffed4a;
+    text-decoration: underline;
+}
+
+/* Estilos para tablas */
+.table {
+    color: var(--text-light);
+}
+
+.table thead th {
+    background-color: var(--dark-blue);
+    border-color: var(--purple);
+}
+
+.table td {
+    border-color: var(--purple);
+}
+
+/* Estilos para modales */
+.modal-content {
+    background-color: var(--card-bg) !important;
+    border: 1px solid var(--purple);
+}
+
+.modal-header {
+    border-bottom: 1px solid var(--purple);
+}
+
+.modal-footer {
+    border-top: 1px solid var(--purple);
+}
