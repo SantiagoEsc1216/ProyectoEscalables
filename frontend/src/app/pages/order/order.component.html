@@ -1,1 +1,47 @@
-<p>order works!</p>
+<div class="container mt-4" *ngIf="order">
+  <div class="ticket-container">
+    <div class="ticket-header">
+      <h1>¡Gracias por tu compra!</h1>
+      <p class="order-id">Orden #{{order.id}}</p>
+    </div>
+
+    <div class="ticket-content">
+      <div class="movie-info">
+        <h2>{{getMovieTitle()}}</h2>
+        <p class="schedule-info">{{getScheduleInfo()}}</p>
+        <p class="room-info">Sala {{order.schedule.room}}</p>
+      </div>
+
+      <div class="ticket-details">
+        <div class="detail-section">
+          <h3>Asientos</h3>
+          <p>{{getSeatsInfo()}}</p>
+        </div>
+
+        <div class="detail-section" *ngIf="order.foods.length > 0">
+          <h3>Alimentos</h3>
+          <p>{{getFoodsInfo()}}</p>
+        </div>
+
+        <div class="detail-section">
+          <h3>Total Pagado</h3>
+          <p class="total-price">${{order.price.toFixed(2)}}</p>
+        </div>
+      </div>
+
+      <div class="qr-section">
+        <h3>Muestra este código QR en la entrada</h3>
+        <img [src]="qrCodeUrl" alt="Código QR de la orden" class="qr-code">
+      </div>
+    </div>
+
+    <div class="ticket-footer">
+      <button class="btn btn-primary" (click)="printTicket()">
+        <i class="fas fa-print"></i> Imprimir Ticket
+      </button>
+      <button class="btn btn-outline-primary" (click)="returnToHome()">
+        Volver al Inicio
+      </button>
+    </div>
+  </div>
+</div>

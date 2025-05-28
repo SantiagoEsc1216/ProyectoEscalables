@@ -92,6 +92,6 @@ export class OrderService {
   }
 
   getOrders(): Observable<Order[]> {
-    return of(this.confirmedOrders);
+    return of(this.ORDERS);
   }
 }

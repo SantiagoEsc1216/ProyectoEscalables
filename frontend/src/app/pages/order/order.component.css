@@ -1,0 +1,144 @@
+.ticket-container {
+  max-width: 800px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+}
+
+.ticket-header {
+  text-align: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px dashed #e0e0e0;
+}
+
+.ticket-header h1 {
+  color: #2c3e50;
+  margin-bottom: 0.5rem;
+}
+
+.order-id {
+  color: #7f8c8d;
+  font-size: 1.1rem;
+}
+
+.ticket-content {
+  display: grid;
+  gap: 2rem;
+}
+
+.movie-info {
+  text-align: center;
+}
+
+.movie-info h2 {
+  color: #2c3e50;
+  margin-bottom: 1rem;
+}
+
+.schedule-info, .room-info {
+  color: #34495e;
+  margin: 0.5rem 0;
+}
+
+.ticket-details {
+  display: grid;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.detail-section {
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 1rem;
+}
+
+.detail-section:last-child {
+  border-bottom: none;
+}
+
+.detail-section h3 {
+  color: #2c3e50;
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+
+.total-price {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #27ae60;
+}
+
+.qr-section {
+  text-align: center;
+  padding: 2rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.qr-section h3 {
+  color: #2c3e50;
+  margin-bottom: 1rem;
+}
+
+.qr-code {
+  width: 200px;
+  height: 200px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 0.5rem;
+  background: white;
+}
+
+.ticket-footer {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  padding-top: 1rem;
+  border-top: 2px dashed #e0e0e0;
+}
+
+/* Estilos para impresión */
+@media print {
+  .ticket-container {
+    box-shadow: none;
+    padding: 0;
+  }
+
+  .ticket-footer {
+    display: none;
+  }
+
+  .qr-code {
+    width: 150px;
+    height: 150px;
+  }
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+  .ticket-container {
+    padding: 1rem;
+  }
+
+  .ticket-content {
+    gap: 1rem;
+  }
+
+  .qr-code {
+    width: 150px;
+    height: 150px;
+  }
+
+  .ticket-footer {
+    flex-direction: column;
+  }
+
+  .ticket-footer button {
+    width: 100%;
+  }
+}
