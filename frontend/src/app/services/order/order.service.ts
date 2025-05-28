@@ -16,15 +16,7 @@ export class OrderService {
 
   private sampleSchedule: Schedule = {
     id: 's1',
-    movie: {
-      id: 'm1',
-      title: 'Inception',
-      sinopsis: 'Un ladrón experto en robar secretos del subconsciente durante los sueños recibe una tarea inusual.',
-      genre: 'Ciencia ficción',
-      director: 'Christopher Nolan',
-      actors: 'Leonardo DiCaprio, Ellen Page, Tom Hardy',
-      duration: 148
-    },
+    movieId: '1',
     date: new Date('2025-06-10'),
     hour: new Date('2025-06-10T19:30:00'),
     room: 2,

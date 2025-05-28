@@ -1,1 +1,68 @@
-<p>select-seats works!</p>
+<div class="container mt-4" *ngIf="movie && schedule">
+  <!-- Movie and Schedule Info -->
+  <div class="movie-info-section">
+    <div class="row">
+      <div class="col-md-3">
+        <img [src]="movie.poster" [alt]="movie.title" class="movie-poster">
+      </div>
+      <div class="col-md-9">
+        <h1 class="movie-title">{{movie.title}}</h1>
+        <div class="schedule-info">
+          <p class="schedule-date">{{formatDate(schedule.date)}}</p>
+          <p class="schedule-time">{{formatTime(schedule.hour)}}</p>
+          <p class="schedule-room">Sala {{schedule.room}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Screen -->
+  <div class="screen-container">
+    <div class="screen">PANTALLA</div>
+  </div>
+
+  <!-- Seats Layout -->
+  <div class="seats-container">
+    <div class="seat-legend">
+      <div class="legend-item">
+        <div class="seat-sample seat-available"></div>
+        <span>Disponible</span>
+      </div>
+      <div class="legend-item">
+        <div class="seat-sample seat-occupied"></div>
+        <span>Ocupado</span>
+      </div>
+      <div class="legend-item">
+        <div class="seat-sample seat-selected"></div>
+        <span>Seleccionado</span>
+      </div>
+    </div>
+
+    <div class="seats-layout">
+      <div class="row" *ngFor="let row of rows">
+        <div class="row-label">{{row}}</div>
+        <div class="seats-row">
+          <div *ngFor="let seat of seatsByRow[row]" 
+               class="seat" 
+               [class]="getSeatClass(seat)"
+               (click)="isSeatAvailable(seat) && toggleSeat(seat.id)">
+            {{seat.column}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Selected Seats Summary -->
+  <div class="selected-seats-summary" *ngIf="selectedSeats.length > 0">
+    <h3>Asientos Seleccionados:</h3>
+    <div class="selected-seats">
+      <span *ngFor="let seatId of selectedSeats" class="selected-seat-badge">
+        {{seatId}}
+      </span>
+    </div>
+    <button class="btn btn-primary continue-btn" (click)="continueToFoods()">
+      Continuar a Alimentos
+    </button>
+  </div>
+</div>
