@@ -1,1 +1,104 @@
-<p>login works!</p>
+<div class="auth-container">
+    <div class="auth-card">
+        <h2 class="auth-title">{{ isLoginMode ? 'Iniciar Sesión' : 'Registro' }}</h2>
+
+        <!-- Mensaje de error -->
+        <div class="alert alert-danger" *ngIf="errorMessage">
+            {{ errorMessage }}
+        </div>
+
+        <!-- Formulario de Login -->
+        <form *ngIf="isLoginMode" [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="auth-form">
+            <div class="form-group">
+                <label for="loginEmail">Correo Electrónico</label>
+                <input type="email" id="loginEmail" formControlName="email" class="form-control"
+                    [ngClass]="{'is-invalid': loginEmail?.invalid && loginEmail?.touched}">
+                <div class="invalid-feedback" *ngIf="loginEmail?.errors?.['required']">
+                    El correo electrónico es requerido
+                </div>
+                <div class="invalid-feedback" *ngIf="loginEmail?.errors?.['email']">
+                    Ingrese un correo electrónico válido
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="loginPassword">Contraseña</label>
+                <input type="password" id="loginPassword" formControlName="password" class="form-control"
+                    [ngClass]="{'is-invalid': loginPassword?.invalid && loginPassword?.touched}">
+                <div class="invalid-feedback" *ngIf="loginPassword?.errors?.['required']">
+                    La contraseña es requerida
+                </div>
+                <div class="invalid-feedback" *ngIf="loginPassword?.errors?.['minlength']">
+                    La contraseña debe tener al menos 6 caracteres
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary" [disabled]="loginForm.invalid">
+                Iniciar Sesión
+            </button>
+        </form>
+
+        <!-- Formulario de Registro -->
+        <form *ngIf="!isLoginMode" [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="auth-form">
+            <div class="form-group">
+                <label for="registerFullName">Nombre Completo</label>
+                <input type="text" id="registerFullName" formControlName="fullName" class="form-control"
+                    [ngClass]="{'is-invalid': registerFullName?.invalid && registerFullName?.touched}">
+                <div class="invalid-feedback" *ngIf="registerFullName?.errors?.['required']">
+                    El nombre es requerido
+                </div>
+                <div class="invalid-feedback" *ngIf="registerFullName?.errors?.['minlength']">
+                    El nombre debe tener al menos 3 caracteres
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="registerEmail">Correo Electrónico</label>
+                <input type="email" id="registerEmail" formControlName="email" class="form-control"
+                    [ngClass]="{'is-invalid': registerEmail?.invalid && registerEmail?.touched}">
+                <div class="invalid-feedback" *ngIf="registerEmail?.errors?.['required']">
+                    El correo electrónico es requerido
+                </div>
+                <div class="invalid-feedback" *ngIf="registerEmail?.errors?.['email']">
+                    Ingrese un correo electrónico válido
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="registerPassword">Contraseña</label>
+                <input type="password" id="registerPassword" formControlName="password" class="form-control"
+                    [ngClass]="{'is-invalid': registerPassword?.invalid && registerPassword?.touched}">
+                <div class="invalid-feedback" *ngIf="registerPassword?.errors?.['required']">
+                    La contraseña es requerida
+                </div>
+                <div class="invalid-feedback" *ngIf="registerPassword?.errors?.['minlength']">
+                    La contraseña debe tener al menos 6 caracteres
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="registerConfirmPassword">Confirmar Contraseña</label>
+                <input type="password" id="registerConfirmPassword" formControlName="confirmPassword"
+                    class="form-control"
+                    [ngClass]="{'is-invalid': registerConfirmPassword?.invalid && registerConfirmPassword?.touched}">
+                <div class="invalid-feedback" *ngIf="registerConfirmPassword?.errors?.['required']">
+                    La confirmación de contraseña es requerida
+                </div>
+                <div class="invalid-feedback" *ngIf="registerForm.errors?.['passwordMismatch']">
+                    Las contraseñas no coinciden
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary" [disabled]="registerForm.invalid">
+                Registrarse
+            </button>
+        </form>
+
+        <!-- Botón para cambiar entre login y registro -->
+        <div class="auth-toggle">
+            <button class="btn btn-link" (click)="toggleMode()">
+                {{ isLoginMode ? '¿No tienes cuenta? Regístrate' : '¿Ya tienes cuenta? Inicia sesión' }}
+            </button>
+        </div>
+    </div>
+</div>
