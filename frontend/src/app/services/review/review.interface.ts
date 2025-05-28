@@ -1,11 +1,12 @@
-import { Movie } from "../movie/movie.interface";
+
 import { User } from "../user/user.interface";
 
-export interface Review{
+export interface Review {
     id: string,
     user: User,
-    movie: Movie,
+    movieId: string, // Cambiado de 'movie: Movie' a 'movieId: string'
     comment: string,
-    rate: number,
-    date :Date
-}
+    rate: number, // 1-5 stars
+    date: Date
+  }
+  

@@ -1,1 +1,76 @@
-<p>movie works!</p>
+<div class="container mt-4" *ngIf="movie">
+  <!-- Movie Header -->
+  <div class="movie-header">
+    <div class="row">
+      <div class="col-md-4">
+        <img [src]="movie.poster" [alt]="movie.title" class="movie-poster">
+      </div>
+      <div class="col-md-8">
+        <h1 class="movie-title">{{movie.title}}</h1>
+        <div class="movie-rating">
+          <span class="rating-label">Rating:</span>
+          <div class="stars">
+            <i class="fas fa-star" *ngFor="let star of [1,2,3,4,5]" 
+               [class.filled]="star <= averageRating"></i>
+          </div>
+          <span class="rating-value">({{averageRating.toFixed(1)}})</span>
+        </div>
+        <div class="movie-info">
+          <p><strong>Género:</strong> {{movie.genre}}</p>
+          <p><strong>Director:</strong> {{movie.director}}</p>
+          <p><strong>Actores:</strong> {{movie.actors}}</p>
+          <p><strong>Duración:</strong> {{movie.duration}} minutos</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navigation Tabs -->
+  <ul ngbNav #nav="ngbNav" [(activeId)]="activeTab" class="nav-tabs mt-4">
+    <li [ngbNavItem]="1">
+      <a ngbNavLink>Funciones</a>
+      <ng-template ngbNavContent>
+        <div class="schedules-container">
+          <div class="schedule-card" *ngFor="let schedule of schedules">
+            <div class="schedule-info">
+              <h3>{{formatDate(schedule.date)}}</h3>
+              <p class="schedule-time">{{formatTime(schedule.hour)}}</p>
+              <p class="schedule-room">Sala {{schedule.room}}</p>
+              <button class="btn btn-primary">
+                Seleccionar Asientos
+              </button>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </li>
+    <li [ngbNavItem]="2">
+      <a ngbNavLink>Información</a>
+      <ng-template ngbNavContent>
+        <div class="info-container">
+          <h3>Sinopsis</h3>
+          <p class="movie-synopsis">{{movie.sinopsis}}</p>
+        </div>
+      </ng-template>
+    </li>
+    <li [ngbNavItem]="3">
+      <a ngbNavLink>Reseñas</a>
+      <ng-template ngbNavContent>
+        <div class="reviews-container">
+          <div class="review-card" *ngFor="let review of reviews">
+            <div class="review-header">
+              <h4>{{review.user.name}}</h4>
+              <div class="review-rating">
+                <i class="fas fa-star" *ngFor="let star of [1,2,3,4,5]" 
+                   [class.filled]="star <= review.rate"></i>
+              </div>
+            </div>
+            <p class="review-date">{{review.date | date:'longDate'}}</p>
+            <p class="review-comment">{{review.comment}}</p>
+          </div>
+        </div>
+      </ng-template>
+    </li>
+  </ul>
+  <div [ngbNavOutlet]="nav" class="mt-3"></div>
+</div>
