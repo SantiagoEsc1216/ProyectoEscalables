@@ -1,0 +1,150 @@
+.order-summary, .payment-form {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  height: 100%;
+}
+
+.summary-section {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.summary-section:last-of-type {
+  border-bottom: none;
+}
+
+.summary-section h3 {
+  color: #666;
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+
+.summary-section p {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.room-info {
+  font-size: 1rem !important;
+  color: #666 !important;
+  margin-top: 0.5rem !important;
+}
+
+.seats-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.seat-badge {
+  background-color: #2196F3;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.food-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+  color: #666;
+}
+
+.total-section {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 2px solid #dee2e6;
+}
+
+.total-section h3 {
+  color: #333;
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.total-price {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #2196F3;
+  margin: 0;
+}
+
+/* Formulario de Pago */
+.payment-form h2 {
+  color: #333;
+}
+
+.form-group label {
+  color: #666;
+  font-weight: 500;
+}
+
+.form-control {
+  padding: 0.75rem;
+  font-size: 1.1rem;
+}
+
+.form-control:focus {
+  border-color: #2196F3;
+  box-shadow: 0 0 0 0.2rem rgba(33, 150, 243, 0.25);
+}
+
+.invalid-feedback {
+  font-size: 0.9rem;
+}
+
+/* Botones */
+.btn-primary {
+  background-color: #2196F3;
+  border-color: #2196F3;
+  padding: 0.75rem;
+  font-size: 1.1rem;
+}
+
+.btn-primary:hover {
+  background-color: #1976D2;
+  border-color: #1976D2;
+}
+
+.btn-outline-danger {
+  padding: 0.75rem;
+  font-size: 1.1rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .order-summary, .payment-form {
+    margin-bottom: 2rem;
+  }
+
+  .total-price {
+    font-size: 1.5rem;
+  }
+
+  .seat-badge {
+    font-size: 0.9rem;
+    padding: 0.4rem 0.8rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .order-summary, .payment-form {
+    padding: 1.5rem;
+  }
+
+  .form-control {
+    font-size: 1rem;
+  }
+
+  .seat-badge {
+    font-size: 0.8rem;
+    padding: 0.3rem 0.6rem;
+  }
+}

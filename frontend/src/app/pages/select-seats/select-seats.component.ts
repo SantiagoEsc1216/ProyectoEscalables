@@ -4,9 +4,11 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ScheduleService } from '../../services/schedule/schedule.service';
 import { SeatService } from '../../services/seat/seat.service';
 import { MovieService } from '../../services/movie/movie.service';
+import { OrderService } from '../../services/order/order.service';
 import { Schedule } from '../../services/schedule/schedule.interface';
 import { Seat } from '../../services/seat/seat.interface';
 import { Movie } from '../../services/movie/movie.interface';
+import { Order } from '../../services/order/order.interface';
 
 @Component({
   selector: 'app-select-seats',
@@ -27,7 +29,8 @@ export class SelectSeatsComponent implements OnInit {
     private router: Router,
     private scheduleService: ScheduleService,
     private seatService: SeatService,
-    private movieService: MovieService
+    private movieService: MovieService,
+    private orderService: OrderService
   ) {}
 
   ngOnInit() {
@@ -84,8 +87,16 @@ export class SelectSeatsComponent implements OnInit {
 
   continueToFoods() {
     if (this.selectedSeats.length > 0 && this.schedule) {
-      this.router.navigate(['/selectFoods', this.schedule.id], {
-        state: { selectedSeats: this.selectedSeats }
+      // Crear la orden inicial con los asientos seleccionados
+      const order = {
+        schedule: this.schedule,
+        seats: this.selectedSeats,
+        foods: [],
+        totalPrice: 0
+      };
+      
+      this.orderService.createOrder(order).subscribe(() => {
+        this.router.navigate(['/selectFoods', this.schedule?.id]);
       });
     }
   }

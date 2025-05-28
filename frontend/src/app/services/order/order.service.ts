@@ -9,6 +9,7 @@ import { Observable, of } from 'rxjs';
 })
 export class OrderService {
   private currentOrder: Order | null = null;
+  private confirmedOrders: Order[] = [];
 
   private foodItems: Food[] = [
     { id: 'f1', name: 'Palomitas grandes', image: 'popcorn.png', price: '80', amount: 1 },
@@ -84,7 +85,13 @@ export class OrderService {
     this.currentOrder = null;
   }
 
+  confirmOrder(order: Order): Observable<Order> {
+    this.confirmedOrders.push(order);
+    this.currentOrder = null;
+    return of(order);
+  }
+
   getOrders(): Observable<Order[]> {
-    return of([]); // En una implementación real, esto obtendría las órdenes del backend
+    return of(this.confirmedOrders);
   }
 }

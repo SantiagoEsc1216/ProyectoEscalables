@@ -6,6 +6,7 @@ import { ScheduleService } from '../../services/schedule/schedule.service';
 import { OrderService } from '../../services/order/order.service';
 import { Food } from '../../services/food/food.interface';
 import { Schedule } from '../../services/schedule/schedule.interface';
+import { Order } from '../../services/order/order.interface';
 
 @Component({
   selector: 'app-select-foods',
@@ -18,7 +19,7 @@ export class SelectFoodsComponent implements OnInit {
   foods: Food[] = [];
   selectedFoods: Food[] = [];
   schedule: Schedule | null = null;
-  selectedSeats: string[] = [];
+  currentOrder: Order | null = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -30,12 +31,9 @@ export class SelectFoodsComponent implements OnInit {
 
   ngOnInit() {
     const scheduleId = this.route.snapshot.params['id'];
-    const navigation = this.router.getCurrentNavigation();
-    if (navigation?.extras.state) {
-      this.selectedSeats = navigation.extras.state['selectedSeats'];
-    }
     this.loadSchedule(scheduleId);
     this.loadFoods();
+    this.loadCurrentOrder();
   }
 
   private loadSchedule(scheduleId: string) {
@@ -50,6 +48,16 @@ export class SelectFoodsComponent implements OnInit {
     this.foodService.getFoods().subscribe(foods => {
       this.foods = foods;
       this.selectedFoods = foods.map(food => ({...food}));
+    });
+  }
+
+  private loadCurrentOrder() {
+    this.orderService.getCurrentOrder().subscribe(order => {
+      if (!order) {
+        this.router.navigate(['/']);
+        return;
+      }
+      this.currentOrder = order;
     });
   }
 
@@ -75,15 +83,14 @@ export class SelectFoodsComponent implements OnInit {
   }
 
   continueToPayment() {
-    if (this.schedule) {
-      const order = {
-        schedule: this.schedule,
-        seats: this.selectedSeats,
+    if (this.currentOrder) {
+      const updatedOrder = {
+        ...this.currentOrder,
         foods: this.getSelectedFoods(),
         totalPrice: this.getTotalPrice()
       };
       
-      this.orderService.createOrder(order).subscribe(() => {
+      this.orderService.createOrder(updatedOrder).subscribe(() => {
         this.router.navigate(['/payOrder', this.schedule?.id]);
       });
     }
@@ -101,5 +108,4 @@ export class SelectFoodsComponent implements OnInit {
   getSubtotal(food: Food): string {
     return (parseFloat(food.price) * food.amount).toFixed(2);
   }
-  
 }
