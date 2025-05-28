@@ -8,6 +8,7 @@ import { Observable, of } from 'rxjs';
   providedIn: 'root'
 })
 export class OrderService {
+  private currentOrder: Order | null = null;
 
   private foodItems: Food[] = [
     { id: 'f1', name: 'Palomitas grandes', image: 'popcorn.png', price: '80', amount: 1 },
@@ -60,7 +61,30 @@ export class OrderService {
 
   constructor() { }
 
-  getOrders(): Observable<Order[]>{
-    return of(this.ORDERS);
+  createOrder(order: Partial<Order>): Observable<Order> {
+    const newOrder: Order = {
+      id: `o${Date.now()}`,
+      user: 'current-user', // Esto debería venir del servicio de autenticación
+      schedule: order.schedule!,
+      foods: order.foods || [],
+      seats: order.seats || [],
+      price: order.totalPrice || 0,
+      date: new Date()
+    };
+
+    this.currentOrder = newOrder;
+    return of(newOrder);
+  }
+
+  getCurrentOrder(): Observable<Order | null> {
+    return of(this.currentOrder);
+  }
+
+  clearCurrentOrder(): void {
+    this.currentOrder = null;
+  }
+
+  getOrders(): Observable<Order[]> {
+    return of([]); // En una implementación real, esto obtendría las órdenes del backend
   }
 }

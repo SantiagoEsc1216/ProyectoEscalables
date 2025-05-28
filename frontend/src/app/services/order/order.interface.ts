@@ -8,5 +8,6 @@ export interface Order{
     foods: Food[],
     seats: string[],
     price: number,
+    totalPrice?: number,
     date: Date
 }

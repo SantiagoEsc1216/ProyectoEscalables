@@ -1,1 +1,44 @@
-<p>select-foods works!</p>
+<div class="container mt-4">
+  <h1 class="text-center mb-4">Selecciona tus alimentos</h1>
+
+  <div class="foods-grid">
+    <div class="food-card" *ngFor="let food of foods">
+      <div class="food-image">
+        <img [src]="food.image" [alt]="food.name">
+      </div>
+      <div class="food-info">
+        <h3>{{food.name}}</h3>
+        <p class="price">${{food.price}}</p>
+        <div class="quantity-selector">
+          <button class="btn btn-outline-primary" 
+                  (click)="updateFoodAmount(food, false)"
+                  [disabled]="isDisabled(food)">
+            -
+          </button>
+          <span class="quantity">{{ getFoodAmount(food) }}</span>
+          <button class="btn btn-outline-primary" 
+                  (click)="updateFoodAmount(food, true)">
+            +
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="order-summary">
+    <h3>Resumen del pedido</h3>
+    <div class="selected-items" *ngIf="getSelectedFoods().length > 0">
+      <div class="selected-item" *ngFor="let food of getSelectedFoods()">
+        <span>{{food.name}} x {{food.amount}}</span>
+        <span>${{ getSubtotal(food) }}</span>
+      </div>
+    </div>
+    <div class="total">
+      <span>Total:</span>
+      <span>${{getTotalPrice().toFixed(2)}}</span>
+    </div>
+    <button class="btn btn-primary btn-lg w-100" (click)="continueToPayment()">
+      Continuar al pago
+    </button>
+  </div>
+</div>

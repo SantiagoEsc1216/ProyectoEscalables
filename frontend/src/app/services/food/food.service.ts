@@ -11,35 +11,35 @@ export class FoodService {
     {
       id: '1',
       name: 'Palomitas',
-      image: 'https://example.com/images/pizza-margarita.jpg',
+      image: 'https://comerbeber.com/archivos/imagen/2022/09/nachos-cv_1200.jpg',
       price: '150.00',
       amount: 0
     },
     {
       id: '2',
       name: 'HotDog',
-      image: 'https://example.com/images/hamburguesa-clasica.jpg',
+      image: 'https://comerbeber.com/archivos/imagen/2022/09/nachos-cv_1200.jpg',
       price: '120.00',
       amount: 0
     },
     {
       id: '3',
       name: 'Nachos',
-      image: 'https://example.com/images/sushi-variado.jpg',
+      image: 'https://comerbeber.com/archivos/imagen/2022/09/nachos-cv_1200.jpg',
       price: '180.00',
       amount: 0
     },
     {
       id: '4',
       name: 'Icee',
-      image: 'https://example.com/images/tacos-al-pastor.jpg',
+      image: 'https://comerbeber.com/archivos/imagen/2022/09/nachos-cv_1200.jpg',
       price: '90.00',
       amount: 0
     },
     {
       id: '5',
       name: 'Coca-Cola',
-      image: 'https://example.com/images/ensalada-cesar.jpg',
+      image: 'https://comerbeber.com/archivos/imagen/2022/09/nachos-cv_1200.jpg',
       price: '75.00',
       amount: 0
     }
