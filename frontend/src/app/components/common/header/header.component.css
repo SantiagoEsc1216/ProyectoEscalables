@@ -1,0 +1,116 @@
+.header {
+    background-color: var(--background-dark);
+    border-bottom: 1px solid var(--purple);
+    padding: 1rem 0;
+}
+
+.navbar {
+    padding: 0;
+}
+
+.navbar-brand {
+    color: var(--text-light);
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.brand-text {
+    background: linear-gradient(45deg, var(--accent-yellow), var(--purple));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 700;
+}
+
+.navbar-toggler {
+    border: 1px solid var(--purple);
+    color: var(--text-light);
+}
+
+.navbar-toggler:focus {
+    box-shadow: 0 0 0 0.2rem rgba(106, 27, 154, 0.25);
+}
+
+.nav-link {
+    color: var(--text-light);
+    padding: 0.5rem 1rem;
+    transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+    color: var(--accent-yellow);
+}
+
+.nav-link.active {
+    color: var(--accent-yellow);
+    font-weight: 500;
+}
+
+.user-menu .btn {
+    color: var(--text-light);
+    background: transparent;
+    border: 1px solid var(--purple);
+    padding: 0.5rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.user-menu .btn:hover {
+    background-color: var(--purple);
+    color: var(--text-light);
+}
+
+.dropdown-menu {
+    background-color: var(--card-bg);
+    border: 1px solid var(--purple);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+.dropdown-item {
+    color: var(--text-light);
+    padding: 0.5rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.dropdown-item:hover {
+    background-color: var(--purple);
+    color: var(--text-light);
+}
+
+.dropdown-divider {
+    border-color: var(--purple);
+}
+
+.btn-primary {
+    background-color: var(--purple);
+    border-color: var(--purple);
+    color: var(--text-light);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.btn-primary:hover {
+    background-color: var(--accent-yellow);
+    border-color: var(--accent-yellow);
+    color: var(--background-dark);
+}
+
+@media (max-width: 991.98px) {
+    .navbar-collapse {
+        background-color: var(--background-dark);
+        padding: 1rem;
+        border-radius: 8px;
+        margin-top: 1rem;
+    }
+
+    .user-menu {
+        margin-top: 1rem;
+    }
+}

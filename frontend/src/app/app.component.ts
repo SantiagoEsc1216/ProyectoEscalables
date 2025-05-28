@@ -1,18 +1,15 @@
-import { Component, OnInit } from '@angular/core';
-import { ApiService } from './services/api.service';
+import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { HeaderComponent } from './components/common/header/header.component';
+import { FooterComponent } from './components/common/footer/footer.component';
 
 @Component({
   selector: 'app-root',
-  imports:[RouterOutlet],
-  templateUrl: './app.component.html'
+  standalone: true,
+  imports: [RouterOutlet, HeaderComponent, FooterComponent],
+  templateUrl: './app.component.html',
+  styleUrl: './app.component.css'
 })
-export class AppComponent implements OnInit {
-  mensaje = 'Cargando...';
-
-  constructor(private api: ApiService) { }
-
-  ngOnInit() {
-
-  }
+export class AppComponent {
+  title = 'CineMatrix';
 }

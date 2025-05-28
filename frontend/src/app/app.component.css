@@ -1,0 +1,14 @@
+.main-content {
+    min-height: calc(100vh - 200px);
+    /* Altura mínima considerando header y footer */
+    padding: 2rem 0;
+    background-color: var(--background-dark);
+    color: var(--text-light);
+}
+
+/* Asegurar que el footer siempre esté al final */
+:host {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
