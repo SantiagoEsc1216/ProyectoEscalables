@@ -1,5 +1,44 @@
+
 <div class="container mt-4">
-    <ngb-alert type="success" [dismissible]="true">
-      ¡Bienvenido a Angular con NG Bootstrap!
-    </ngb-alert>
+    <!-- Current Movies Section -->
+    <section class="movie-section">
+      <h2 class="section-title">Películas en Cartelera</h2>
+      <div class="carousel-container">
+        <button class="carousel-button left" (click)="scrollCarousel('left', 'currentMoviesCarousel')">
+          <i class="fas fa-chevron-left"></i>
+        </button>
+        <div id="currentMoviesCarousel" class="movie-carousel">
+          <div *ngFor="let movie of currentMovies" class="movie-card" [routerLink]="['/movie', movie.id]">
+            <img [src]="movie.poster" [alt]="movie.title" class="movie-poster">
+            <div class="movie-info">
+              <h3>{{movie.title}}</h3>
+            </div>
+          </div>
+        </div>
+        <button class="carousel-button right" (click)="scrollCarousel('right', 'currentMoviesCarousel')">
+          <i class="fas fa-chevron-right"></i>
+        </button>
+      </div>
+    </section>
+
+    <!-- Upcoming Movies Section -->
+    <section class="movie-section">
+      <h2 class="section-title">Próximos Estrenos</h2>
+      <div class="carousel-container">
+        <button class="carousel-button left" (click)="scrollCarousel('left', 'upcomingMoviesCarousel')">
+          <i class="fas fa-chevron-left"></i>
+        </button>
+        <div id="upcomingMoviesCarousel" class="movie-carousel">
+          <div *ngFor="let movie of upcomingMovies" class="movie-card" [routerLink]="['/movie', movie.id]">
+            <img [src]="movie.poster" [alt]="movie.title" class="movie-poster">
+            <div class="movie-info">
+              <h3>{{movie.title}}</h3>
+            </div>
+          </div>
+        </div>
+        <button class="carousel-button right" (click)="scrollCarousel('right', 'upcomingMoviesCarousel')">
+          <i class="fas fa-chevron-right"></i>
+        </button>
+      </div>
+    </section>
   </div>
