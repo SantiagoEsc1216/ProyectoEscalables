@@ -1,150 +1,167 @@
-.order-summary, .payment-form {
-  background: white;
+.payment-container {
+  max-width: 800px;
+  margin: 2rem auto;
   padding: 2rem;
+  background: var(--card-bg);
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  height: 100%;
+  border: 1px solid var(--purple);
 }
 
-.summary-section {
-  margin-bottom: 1.5rem;
-  padding-bottom: 1.5rem;
-  border-bottom: 1px solid #dee2e6;
+.payment-header {
+  margin-bottom: 2rem;
+  text-align: center;
 }
 
-.summary-section:last-of-type {
-  border-bottom: none;
-}
-
-.summary-section h3 {
-  color: #666;
-  font-size: 1.1rem;
+.payment-header h2 {
+  color: var(--text-light);
   margin-bottom: 0.5rem;
 }
 
-.summary-section p {
-  margin: 0;
-  font-size: 1.2rem;
-  color: #333;
+.payment-header p {
+  color: var(--text-gray);
 }
 
-.room-info {
-  font-size: 1rem !important;
-  color: #666 !important;
-  margin-top: 0.5rem !important;
+.order-summary {
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background: var(--background-dark);
+  border-radius: 8px;
+  border: 1px solid var(--purple);
 }
 
-.seats-info {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-top: 0.5rem;
+.order-summary h3 {
+  color: var(--text-light);
+  margin-bottom: 1rem;
 }
 
-.seat-badge {
-  background-color: #2196F3;
-  color: white;
-  padding: 0.5rem 1rem;
-  border-radius: 20px;
-  font-size: 1rem;
-  font-weight: 500;
-}
-
-.food-item {
+.summary-item {
   display: flex;
   justify-content: space-between;
   margin-bottom: 0.5rem;
-  color: #666;
+  color: var(--text-gray);
 }
 
-.total-section {
-  margin-top: 2rem;
-  padding-top: 1.5rem;
-  border-top: 2px solid #dee2e6;
+.summary-total {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--purple);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.total-section h3 {
-  color: #333;
+.total-label {
+  color: var(--text-light);
   font-size: 1.2rem;
-  margin-bottom: 0.5rem;
-}
-
-.total-price {
-  font-size: 1.8rem;
   font-weight: bold;
-  color: #2196F3;
-  margin: 0;
 }
 
-/* Formulario de Pago */
-.payment-form h2 {
-  color: #333;
+.total-amount {
+  color: var(--accent-yellow);
+  font-size: 1.4rem;
+  font-weight: bold;
+}
+
+.payment-form {
+  margin-top: 2rem;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
 }
 
 .form-group label {
-  color: #666;
-  font-weight: 500;
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--text-light);
 }
 
 .form-control {
+  width: 100%;
   padding: 0.75rem;
-  font-size: 1.1rem;
+  border: 1px solid var(--purple);
+  border-radius: 4px;
+  background: var(--background-dark);
+  color: var(--text-light);
+  transition: all 0.3s ease;
 }
 
 .form-control:focus {
-  border-color: #2196F3;
-  box-shadow: 0 0 0 0.2rem rgba(33, 150, 243, 0.25);
+  outline: none;
+  border-color: var(--accent-yellow);
 }
 
-.invalid-feedback {
+.form-control::placeholder {
+  color: var(--text-gray);
+}
+
+.card-details {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.error-message {
+  color: #ff6b6b;
   font-size: 0.9rem;
+  margin-top: 0.25rem;
 }
 
-/* Botones */
+.payment-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.btn {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
 .btn-primary {
-  background-color: #2196F3;
-  border-color: #2196F3;
-  padding: 0.75rem;
-  font-size: 1.1rem;
+  background: var(--primary-blue);
+  color: var(--text-light);
 }
 
 .btn-primary:hover {
-  background-color: #1976D2;
-  border-color: #1976D2;
+  background: var(--purple);
 }
 
-.btn-outline-danger {
-  padding: 0.75rem;
-  font-size: 1.1rem;
+.btn-secondary {
+  background: var(--text-gray);
+  color: var(--text-light);
 }
 
-/* Responsive Design */
+.btn-secondary:hover {
+  background: var(--text-dark);
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 @media (max-width: 768px) {
-  .order-summary, .payment-form {
-    margin-bottom: 2rem;
+  .payment-container {
+    margin: 1rem;
+    padding: 1rem;
   }
 
-  .total-price {
-    font-size: 1.5rem;
+  .card-details {
+    grid-template-columns: 1fr;
   }
 
-  .seat-badge {
-    font-size: 0.9rem;
-    padding: 0.4rem 0.8rem;
-  }
-}
-
-@media (max-width: 576px) {
-  .order-summary, .payment-form {
-    padding: 1.5rem;
+  .payment-actions {
+    flex-direction: column;
   }
 
-  .form-control {
-    font-size: 1rem;
-  }
-
-  .seat-badge {
-    font-size: 0.8rem;
-    padding: 0.3rem 0.6rem;
+  .btn {
+    width: 100%;
   }
 }

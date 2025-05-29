@@ -30,8 +30,8 @@ body {
 }
 
 .btn-primary {
-    background-color: var(--dark-blue) !important;
-    border-color: var(--purple) !important;
+    background-color: #6a1b9a !important;
+    border-color: #6a1b9a !important;
 }
 
 .btn-primary:hover {

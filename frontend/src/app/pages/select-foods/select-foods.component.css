@@ -31,16 +31,17 @@
 
 .food-info {
   padding: 1rem;
+  background-color: var(--card-bg);
 }
 
 .food-info h3 {
   margin: 0 0 0.5rem 0;
   font-size: 1.2rem;
-  color: #333;
+  color: var(--text-light);
 }
 
 .price {
-  color: #2196F3;
+  color: var(--purple);
   font-weight: bold;
   font-size: 1.1rem;
   margin-bottom: 1rem;
@@ -72,7 +73,7 @@
 }
 
 .order-summary {
-  background: #f8f9fa;
+  background: var(--card-bg);
   padding: 1.5rem;
   border-radius: 8px;
   margin-top: 2rem;
@@ -80,7 +81,7 @@
 
 .order-summary h3 {
   margin-bottom: 1rem;
-  color: #333;
+  color: var(--text-light);
 }
 
 .selected-items {
