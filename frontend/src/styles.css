@@ -30,7 +30,7 @@ body {
 }
 
 .btn-primary {
-    background-color: #6a1b9a !important;
+    background-color: var(--card-bg) !important;
     border-color: #6a1b9a !important;
 }
 

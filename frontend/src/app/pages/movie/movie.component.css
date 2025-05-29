@@ -9,10 +9,27 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+.nav-link {
+  background-color: var(--card-bg);
+  color: white;
+
+}
+
+.nav-link:hover {
+  background-color: var(--card-bg);
+  color: var(--purple); 
+}
+
+.nav-link.active {
+  background-color: var(--purple); 
+  color: white;
+}
+
+
 .movie-title {
   font-size: 2.5rem;
   margin-bottom: 1rem;
-  color: #333;
+  color: var(--text-light);
 }
 
 .movie-rating {
@@ -30,6 +47,7 @@
 .stars {
   display: flex;
   gap: 0.25rem;
+  font-size: 2.5rem;
 }
 
 .stars i {
@@ -47,11 +65,12 @@
 
 .movie-info {
   margin-top: 1.5rem;
+  font-size: 1.2rem;
 }
 
 .movie-info p {
   margin-bottom: 0.5rem;
-  color: #555;
+  color: var(--text-light);
 }
 
 /* Schedules Section */
@@ -60,10 +79,11 @@
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 1.5rem;
   padding: 1rem 0;
+  background-color: var(--background-dark);
 }
 
 .schedule-card {
-  background: #f8f9fa;
+  background: var(--card-bg);
   border-radius: 8px;
   padding: 1.5rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
@@ -72,17 +92,17 @@
 .schedule-info h3 {
   font-size: 1.2rem;
   margin-bottom: 0.5rem;
-  color: #333;
+  color: var(--text-light);
 }
 
 .schedule-time {
   font-size: 1.1rem;
-  color: #666;
+  color: var(--text-gray);
   margin-bottom: 0.5rem;
 }
 
 .schedule-room {
-  color: #888;
+  color: var(--text-gray);
   margin-bottom: 1rem;
 }
 

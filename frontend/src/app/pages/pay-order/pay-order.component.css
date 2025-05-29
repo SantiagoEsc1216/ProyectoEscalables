@@ -24,7 +24,7 @@
 .order-summary {
   margin-bottom: 2rem;
   padding: 1.5rem;
-  background: var(--background-dark);
+  background: var(--card-bg);
   border-radius: 8px;
   border: 1px solid var(--purple);
 }

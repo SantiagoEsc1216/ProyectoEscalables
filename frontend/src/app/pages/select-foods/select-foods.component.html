@@ -10,11 +10,11 @@
         <h3>{{food.name}}</h3>
         <p class="price">${{food.price}}</p>
         <div class="quantity-selector">
-          <button class="btn btn-outline-primary" (click)="updateFoodAmount(food, false)" [disabled]="isDisabled(food)">
+          <button class="btn  btn-primary" (click)="updateFoodAmount(food, false)" [disabled]="isDisabled(food)">
             -
           </button>
           <span class="quantity">{{ getFoodAmount(food) }}</span>
-          <button class="btn btn-outline-primary" (click)="updateFoodAmount(food, true)">
+          <button class="btn btn-primary" (click)="updateFoodAmount(food, true)">
             +
           </button>
         </div>

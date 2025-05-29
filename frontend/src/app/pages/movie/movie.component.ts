@@ -50,6 +50,10 @@ export class MovieComponent implements OnInit {
     this.checkIfUserCanReview(movieId);
   }
 
+  ariaValueText(current: number, max: number) {
+		return `${current} out of ${max} hearts`;
+	}
+
   private loadMovieDetails(movieId: string) {
     this.movieService.getMovies().subscribe(movies => {
       this.movie = movies.find(m => m.id === movieId) || null;

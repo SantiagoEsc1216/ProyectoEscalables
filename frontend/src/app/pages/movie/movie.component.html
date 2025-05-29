@@ -25,9 +25,9 @@
   </div>
 
   <!-- Navigation Tabs -->
-  <ul ngbNav #nav="ngbNav" [(activeId)]="activeTab" class="nav-tabs mt-4">
+  <ul ngbNav #nav="ngbNav" [(activeId)]="activeTab" class="nav-tabs mt-4 ">
     <li [ngbNavItem]="1">
-      <a ngbNavLink>Funciones</a>
+      <a ngbNavLink class="nav-link">Funciones</a>
       <ng-template ngbNavContent>
         <div class="schedules-container">
           <div class="schedule-card" *ngFor="let schedule of schedules">
@@ -44,7 +44,7 @@
       </ng-template>
     </li>
     <li [ngbNavItem]="2">
-      <a ngbNavLink>Información</a>
+      <a ngbNavLink class="nav-link">Información</a>
       <ng-template ngbNavContent>
         <div class="info-container">
           <h3>Sinopsis</h3>
@@ -53,7 +53,7 @@
       </ng-template>
     </li>
     <li [ngbNavItem]="3">
-      <a ngbNavLink>Reseñas</a>
+      <a ngbNavLink class="nav-link">Reseñas</a>
       <ng-template ngbNavContent>
         <div class="reviews-container">
           <!-- Formulario de Reseña -->
