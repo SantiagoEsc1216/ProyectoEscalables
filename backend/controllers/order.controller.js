@@ -82,7 +82,7 @@ exports.createOrder = async (req, res) => {
         const order = new Order(req.body);
         const newOrder = await order.save();
         
-        const populatedOrder = await Order.findById(newOrder._id)
+        const populatedOrder = await Order.findById(newOrder.id)
             .populate('user', 'name email')
             .populate({
                 path: 'schedule',

@@ -13,12 +13,13 @@ exports.getMovies = async (req, res) => {
 // Get a single movie
 exports.getMovie = async (req, res) => {
     try {
-        const movie = await Movie.findById(req.params.id);
+        const movie = await Movie.findOne({id : req.params.id});
         if (!movie) {
             return res.status(404).json({ message: 'Movie not found' });
         }
         res.json(movie);
     } catch (error) {
+        console.log("message:", error.message);
         res.status(500).json({ message: error.message });
     }
 };

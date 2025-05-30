@@ -61,6 +61,7 @@ export class LoginComponent {
             // Guardar el token y la información del usuario en localStorage
             localStorage.setItem('token', response.token);
             localStorage.setItem('user', JSON.stringify(response.user));
+            console.log(localStorage.getItem('token'));
             this.isLoading = false;
             this.router.navigate(['/']);
           },

@@ -72,9 +72,9 @@ exports.getUser = async (req, res) => {
       });
   
       res.json({
-        mensaje: "Login exitoso",
-        token,
-        usuario: {
+        mesagge: "Login exitoso",
+        token: token,
+        user: {
           id: usuario.id,
           name: usuario.name,
           role: usuario.role,

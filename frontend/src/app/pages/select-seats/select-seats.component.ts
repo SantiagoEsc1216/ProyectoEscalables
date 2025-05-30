@@ -54,6 +54,7 @@ export class SelectSeatsComponent implements OnInit {
   }
 
   private loadMovieDetails(movieId: string) {
+
     this.movieService.getMovie(movieId).subscribe({
       next: (movie) => {
         this.movie = movie;
@@ -103,6 +104,7 @@ export class SelectSeatsComponent implements OnInit {
         this.router.navigate(['/login']);
         return;
       }
+      console.log(userStr);
 
       const user = JSON.parse(userStr);
       const order: Partial<Order> = {
