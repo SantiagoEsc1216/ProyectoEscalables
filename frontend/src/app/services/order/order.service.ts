@@ -2,83 +2,28 @@ import { Injectable } from '@angular/core';
 import { Food } from '../food/food.interface';
 import { Schedule } from '../schedule/schedule.interface';
 import { Order } from './order.interface';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class OrderService {
+  private apiUrl = `${environment.apiUrl}/api/orders`;
   private currentOrder: Order | null = null;
-  private confirmedOrders: Order[] = [];
 
-  private foodItems: Food[] = [
-    { id: 'f1', name: 'Palomitas grandes', image: 'popcorn.png', price: '80', amount: 1 },
-    { id: 'f2', name: 'Refresco mediano', image: 'soda.png', price: '45', amount: 2 }
-  ];
-
-  private sampleSchedule: Schedule = {
-    id: 's1',
-    movieId: '1',
-    date: new Date('2025-06-10'),
-    hour: new Date('2025-06-10T19:30:00'),
-    room: 2,
-    seats: [
-      { id: 'D1', row: 'D', column: 1, free: false },
-      { id: 'D2', row: 'D', column: 2, free: false }
-    ]
-  };
-
-  private ORDERS: Order[] = [
-    {
-      id: 'o1',
-      user: 'u1',
-      schedule: this.sampleSchedule,
-      foods: this.foodItems,
-      seats: ['D1', 'D2'],
-      price: 170,
-      date: new Date('2025-06-05')
-    },
-    {
-      id: 'o2',
-      user: 'u2',
-      schedule: this.sampleSchedule,
-      foods: [],
-      seats: ['C3'],
-      price: 100,
-      date: new Date('2025-06-05')
-    },
-    {
-      id: 'o3',
-      user: 'u1',
-      schedule: this.sampleSchedule,
-      foods: [
-        { id: 'f3', name: 'Nachos con queso', image: 'nachos.png', price: '60', amount: 1 }
-      ],
-      seats: ['E1'],
-      price: 160,
-      date: new Date('2025-06-06')
-    }
-  ];
-
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
   createOrder(order: Partial<Order>): Observable<Order> {
-    const newOrder: Order = {
-      id: `o${Date.now()}`,
-      user: 'current-user', // Esto debería venir del servicio de autenticación
-      schedule: order.schedule!,
-      foods: order.foods || [],
-      seats: order.seats || [],
-      price: order.totalPrice || 0,
-      date: new Date()
-    };
-
-    this.currentOrder = newOrder;
-    return of(newOrder);
+    return this.http.post<Order>(this.apiUrl, order);
   }
 
   getCurrentOrder(): Observable<Order | null> {
-    return of(this.currentOrder);
+    return new Observable(observer => {
+      observer.next(this.currentOrder);
+      observer.complete();
+    });
   }
 
   clearCurrentOrder(): void {
@@ -86,12 +31,27 @@ export class OrderService {
   }
 
   confirmOrder(order: Order): Observable<Order> {
-    this.confirmedOrders.push(order);
     this.currentOrder = null;
-    return of(order);
+    return this.http.post<Order>(this.apiUrl, order);
   }
 
   getOrders(): Observable<Order[]> {
-    return of(this.ORDERS);
+    return this.http.get<Order[]>(this.apiUrl);
+  }
+
+  getOrderById(id: string): Observable<Order> {
+    return this.http.get<Order>(`${this.apiUrl}/${id}`);
+  }
+
+  getOrdersByUser(userId: string): Observable<Order[]> {
+    return this.http.get<Order[]>(`${this.apiUrl}/user/${userId}`);
+  }
+
+  updateOrder(id: string, order: Order): Observable<Order> {
+    return this.http.put<Order>(`${this.apiUrl}/${id}`, order);
+  }
+
+  deleteOrder(id: string): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${id}`);
   }
 }

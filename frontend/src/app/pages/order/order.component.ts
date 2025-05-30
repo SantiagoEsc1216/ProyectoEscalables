@@ -31,19 +31,27 @@ export class OrderComponent implements OnInit {
   }
 
   private loadOrder(orderId: string) {
-    this.orderService.getOrders().subscribe(orders => {
-      this.order = orders.find(o => o.id === orderId) || null;
-      if (this.order) {
-        this.loadMovieDetails(this.order.schedule.movieId);
-      } else {
+    this.orderService.getOrderById(orderId).subscribe({
+      next: (order) => {
+        this.order = order;
+        if (this.order?.schedule?.movieId) {
+          this.loadMovieDetails(this.order.schedule.movieId);
+        }
+      },
+      error: () => {
         this.router.navigate(['/']);
       }
     });
   }
 
   private loadMovieDetails(movieId: string) {
-    this.movieService.getMovies().subscribe(movies => {
-      this.movie = movies.find(m => m.id === movieId) || null;
+    this.movieService.getMovie(movieId).subscribe({
+      next: (movie) => {
+        this.movie = movie;
+      },
+      error: () => {
+        this.movie = null;
+      }
     });
   }
 

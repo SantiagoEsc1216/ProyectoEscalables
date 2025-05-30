@@ -37,27 +37,42 @@ export class SelectFoodsComponent implements OnInit {
   }
 
   private loadSchedule(scheduleId: string) {
-    this.scheduleService.getScheduleById(scheduleId).subscribe(schedule => {
-      if (schedule) {
-        this.schedule = schedule;
+    this.scheduleService.getScheduleById(scheduleId).subscribe({
+      next: (schedule) => {
+        if (schedule) {
+          this.schedule = schedule;
+        }
+      },
+      error: () => {
+        this.router.navigate(['/']);
       }
     });
   }
 
   private loadFoods() {
-    this.foodService.getFoods().subscribe(foods => {
-      this.foods = foods;
-      this.selectedFoods = foods.map(food => ({...food}));
+    this.foodService.getFoods().subscribe({
+      next: (foods) => {
+        this.foods = foods;
+        this.selectedFoods = foods.map(food => ({...food}));
+      },
+      error: (error) => {
+        console.error('Error loading foods:', error);
+      }
     });
   }
 
   private loadCurrentOrder() {
-    this.orderService.getCurrentOrder().subscribe(order => {
-      if (!order) {
+    this.orderService.getCurrentOrder().subscribe({
+      next: (order) => {
+        if (!order) {
+          this.router.navigate(['/']);
+          return;
+        }
+        this.currentOrder = order;
+      },
+      error: () => {
         this.router.navigate(['/']);
-        return;
       }
-      this.currentOrder = order;
     });
   }
 
@@ -83,15 +98,21 @@ export class SelectFoodsComponent implements OnInit {
   }
 
   continueToPayment() {
-    if (this.currentOrder) {
-      const updatedOrder = {
+    if (this.currentOrder && this.currentOrder.id) {
+      const updatedOrder: Order = {
         ...this.currentOrder,
         foods: this.getSelectedFoods(),
-        totalPrice: this.getTotalPrice()
+        price: this.getTotalPrice()
       };
       
-      this.orderService.createOrder(updatedOrder).subscribe(() => {
-        this.router.navigate(['/payOrder', this.schedule?.id]);
+      this.orderService.updateOrder(this.currentOrder.id, updatedOrder).subscribe({
+        next: () => {
+          this.router.navigate(['/payOrder', this.schedule?.id]);
+        },
+        error: (error) => {
+          console.error('Error updating order:', error);
+          // Aquí podrías mostrar un mensaje de error al usuario
+        }
       });
     }
   }

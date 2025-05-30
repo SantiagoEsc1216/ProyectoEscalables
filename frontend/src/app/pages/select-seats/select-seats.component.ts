@@ -39,18 +39,28 @@ export class SelectSeatsComponent implements OnInit {
   }
 
   private loadScheduleAndSeats(scheduleId: string) {
-    this.scheduleService.getScheduleById(scheduleId).subscribe(schedule => {
-      if (schedule) {
-        this.schedule = schedule;
-        this.loadMovieDetails(schedule.movieId);
-        this.loadSeats(schedule);
+    this.scheduleService.getScheduleById(scheduleId).subscribe({
+      next: (schedule) => {
+        if (schedule) {
+          this.schedule = schedule;
+          this.loadMovieDetails(schedule.movieId);
+          this.loadSeats(schedule);
+        }
+      },
+      error: () => {
+        this.router.navigate(['/']);
       }
     });
   }
 
   private loadMovieDetails(movieId: string) {
-    this.movieService.getMovies().subscribe(movies => {
-      this.movie = movies.find(m => m.id === movieId) || null;
+    this.movieService.getMovie(movieId).subscribe({
+      next: (movie) => {
+        this.movie = movie;
+      },
+      error: () => {
+        this.movie = null;
+      }
     });
   }
 
@@ -87,16 +97,30 @@ export class SelectSeatsComponent implements OnInit {
 
   continueToFoods() {
     if (this.selectedSeats.length > 0 && this.schedule) {
-      // Crear la orden inicial con los asientos seleccionados
-      const order = {
+      // Get user ID from localStorage
+      const userStr = localStorage.getItem('user');
+      if (!userStr) {
+        this.router.navigate(['/login']);
+        return;
+      }
+
+      const user = JSON.parse(userStr);
+      const order: Partial<Order> = {
+        user: user.id,
         schedule: this.schedule,
         seats: this.selectedSeats,
         foods: [],
-        totalPrice: 0
+        price: 0
       };
       
-      this.orderService.createOrder(order).subscribe(() => {
-        this.router.navigate(['/selectFoods', this.schedule?.id]);
+      this.orderService.createOrder(order).subscribe({
+        next: () => {
+          this.router.navigate(['/selectFoods', this.schedule?.id]);
+        },
+        error: (error) => {
+          console.error('Error creating order:', error);
+          // Aquí podrías mostrar un mensaje de error al usuario
+        }
       });
     }
   }

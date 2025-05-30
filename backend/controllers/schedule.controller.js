@@ -53,7 +53,7 @@ exports.getSchedulesByRoom = async (req, res) => {
 // Get a single schedule
 exports.getSchedule = async (req, res) => {
     try {
-        const schedule = await Schedule.findById(req.params.id).populate('movieId');
+        const schedule = await Schedule.findOne({id: req.params.id});
         if (!schedule) {
             return res.status(404).json({ message: 'Schedule not found' });
         }
