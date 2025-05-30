@@ -51,13 +51,14 @@ export class MovieComponent implements OnInit {
   }
 
   ariaValueText(current: number, max: number) {
-		return `${current} out of ${max} hearts`;
-	}
+    return `${current} out of ${max} hearts`;
+  }
 
   private loadMovieDetails(movieId: string) {
-    this.movieService.getMovies().subscribe(movies => {
-      this.movie = movies.find(m => m.id === movieId) || null;
+    this.movieService.getMovie(movieId).subscribe(movie => {
+      this.movie = movie;
       if (this.movie) {
+        console.log(this.movie);
         this.loadSchedules(movieId);
         this.loadReviews(movieId);
       }
@@ -71,8 +72,9 @@ export class MovieComponent implements OnInit {
   }
 
   private loadReviews(movieId: string) {
-    this.reviewService.getReviews().subscribe(reviews => {
-      this.reviews = reviews.filter(r => r.movieId === movieId);
+    this.reviewService.getReviewsByMovieId(movieId).subscribe(reviews => {
+      this.reviews = reviews;
+      console.log("Revies:", this.reviews);
       this.calculateAverageRating();
     });
   }
@@ -87,14 +89,13 @@ export class MovieComponent implements OnInit {
   }
 
   private checkIfUserCanReview(movieId: string) {
-    this.orderService.getOrders().subscribe(orders => {
-      // Verificar si el usuario tiene alguna orden confirmada para esta película
-      const userOrders = orders.filter(order =>
-        order.user === this.currentUserId &&
-        order.schedule.movieId === movieId
-      );
-      this.canReview = userOrders.length > 0;
-    });
+    const userStr = localStorage.getItem('user');
+    if (userStr) {
+      const user = JSON.parse(userStr);
+      this.orderService.getOrdersByUser(user.id).subscribe(orders => {
+        this.canReview = orders.length > 0;
+      });
+    }
   }
 
   formatDate(date: Date): string {

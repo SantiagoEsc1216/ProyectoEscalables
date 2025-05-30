@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const movieSchema = new mongoose.Schema({
-    id: {type: String},
+    id: { type: String },
     title: {
         type: String,
         required: true,
@@ -30,6 +30,10 @@ const movieSchema = new mongoose.Schema({
     duration: {
         type: Number,
         required: true
+    },
+    rating: {
+        type: Number,
+        requiered: true
     }
 }, {
     timestamps: false,

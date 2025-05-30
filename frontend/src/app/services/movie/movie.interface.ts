@@ -1,4 +1,4 @@
-export interface Movie{
+export interface Movie {
     id: string,
     title: string,
     poster: string,
@@ -6,5 +6,6 @@ export interface Movie{
     genre: string,
     director: string,
     actors: string,
-    duration: number
+    duration: number,
+    rating: number
 }
