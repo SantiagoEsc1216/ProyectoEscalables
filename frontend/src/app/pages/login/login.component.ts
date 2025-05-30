@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { UserService } from '../../services/user/user.service';
 
 @Component({
   selector: 'app-login',
@@ -15,10 +16,12 @@ export class LoginComponent {
   loginForm: FormGroup;
   registerForm: FormGroup;
   errorMessage: string = '';
+  isLoading: boolean = false;
 
   constructor(
     private fb: FormBuilder,
-    private router: Router
+    private router: Router,
+    private userService: UserService
   ) {
     // Formulario de login
     this.loginForm = this.fb.group({
@@ -50,18 +53,40 @@ export class LoginComponent {
   onSubmit() {
     if (this.isLoginMode) {
       if (this.loginForm.valid) {
-        // TODO: Implementar lógica de login
-        console.log('Login form submitted:', this.loginForm.value);
-        // Simulación de login exitoso
-        this.router.navigate(['/']);
+        this.isLoading = true;
+        const { email, password } = this.loginForm.value;
+        
+        this.userService.login(email, password).subscribe({
+          next: (response) => {
+            // Guardar el token y la información del usuario en localStorage
+            localStorage.setItem('token', response.token);
+            localStorage.setItem('user', JSON.stringify(response.user));
+            this.isLoading = false;
+            this.router.navigate(['/']);
+          },
+          error: (error) => {
+            this.isLoading = false;
+            this.errorMessage = error.error.message || 'Error al iniciar sesión';
+          }
+        });
       }
     } else {
       if (this.registerForm.valid) {
-        // TODO: Implementar lógica de registro
-        console.log('Register form submitted:', this.registerForm.value);
-        // Simulación de registro exitoso
-        this.isLoginMode = true;
-        this.errorMessage = 'Registro exitoso. Por favor inicia sesión.';
+        this.isLoading = true;
+        const { fullName, email, password } = this.registerForm.value;
+        
+        this.userService.register({ name: fullName, email, password }).subscribe({
+          next: () => {
+            this.isLoading = false;
+            this.isLoginMode = true;
+            this.errorMessage = 'Registro exitoso. Por favor inicia sesión.';
+            this.registerForm.reset();
+          },
+          error: (error) => {
+            this.isLoading = false;
+            this.errorMessage = error.error.message || 'Error al registrar usuario';
+          }
+        });
       }
     }
   }

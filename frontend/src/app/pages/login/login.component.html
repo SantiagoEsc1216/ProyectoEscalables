@@ -3,7 +3,7 @@
         <h2 class="auth-title">{{ isLoginMode ? 'Iniciar Sesión' : 'Registro' }}</h2>
 
         <!-- Mensaje de error -->
-        <div class="alert alert-danger" *ngIf="errorMessage">
+        <div *ngIf="errorMessage" class="error-message">
             {{ errorMessage }}
         </div>
 
@@ -13,11 +13,9 @@
                 <label for="loginEmail">Correo Electrónico</label>
                 <input type="email" id="loginEmail" formControlName="email" class="form-control"
                     [ngClass]="{'is-invalid': loginEmail?.invalid && loginEmail?.touched}">
-                <div class="invalid-feedback" *ngIf="loginEmail?.errors?.['required']">
-                    El correo electrónico es requerido
-                </div>
-                <div class="invalid-feedback" *ngIf="loginEmail?.errors?.['email']">
-                    Ingrese un correo electrónico válido
+                <div *ngIf="loginEmail?.invalid && loginEmail?.touched" class="error-text">
+                    <div *ngIf="loginEmail?.errors?.['required']">El correo es requerido</div>
+                    <div *ngIf="loginEmail?.errors?.['email']">Ingrese un correo válido</div>
                 </div>
             </div>
 
@@ -25,11 +23,9 @@
                 <label for="loginPassword">Contraseña</label>
                 <input type="password" id="loginPassword" formControlName="password" class="form-control"
                     [ngClass]="{'is-invalid': loginPassword?.invalid && loginPassword?.touched}">
-                <div class="invalid-feedback" *ngIf="loginPassword?.errors?.['required']">
-                    La contraseña es requerida
-                </div>
-                <div class="invalid-feedback" *ngIf="loginPassword?.errors?.['minlength']">
-                    La contraseña debe tener al menos 6 caracteres
+                <div *ngIf="loginPassword?.invalid && loginPassword?.touched" class="error-text">
+                    <div *ngIf="loginPassword?.errors?.['required']">La contraseña es requerida</div>
+                    <div *ngIf="loginPassword?.errors?.['minlength']">La contraseña debe tener al menos 6 caracteres</div>
                 </div>
             </div>
 
@@ -44,11 +40,9 @@
                 <label for="registerFullName">Nombre Completo</label>
                 <input type="text" id="registerFullName" formControlName="fullName" class="form-control"
                     [ngClass]="{'is-invalid': registerFullName?.invalid && registerFullName?.touched}">
-                <div class="invalid-feedback" *ngIf="registerFullName?.errors?.['required']">
-                    El nombre es requerido
-                </div>
-                <div class="invalid-feedback" *ngIf="registerFullName?.errors?.['minlength']">
-                    El nombre debe tener al menos 3 caracteres
+                <div *ngIf="registerFullName?.invalid && registerFullName?.touched" class="error-text">
+                    <div *ngIf="registerFullName?.errors?.['required']">El nombre es requerido</div>
+                    <div *ngIf="registerFullName?.errors?.['minlength']">El nombre debe tener al menos 3 caracteres</div>
                 </div>
             </div>
 
@@ -56,11 +50,9 @@
                 <label for="registerEmail">Correo Electrónico</label>
                 <input type="email" id="registerEmail" formControlName="email" class="form-control"
                     [ngClass]="{'is-invalid': registerEmail?.invalid && registerEmail?.touched}">
-                <div class="invalid-feedback" *ngIf="registerEmail?.errors?.['required']">
-                    El correo electrónico es requerido
-                </div>
-                <div class="invalid-feedback" *ngIf="registerEmail?.errors?.['email']">
-                    Ingrese un correo electrónico válido
+                <div *ngIf="registerEmail?.invalid && registerEmail?.touched" class="error-text">
+                    <div *ngIf="registerEmail?.errors?.['required']">El correo es requerido</div>
+                    <div *ngIf="registerEmail?.errors?.['email']">Ingrese un correo válido</div>
                 </div>
             </div>
 
@@ -68,11 +60,9 @@
                 <label for="registerPassword">Contraseña</label>
                 <input type="password" id="registerPassword" formControlName="password" class="form-control"
                     [ngClass]="{'is-invalid': registerPassword?.invalid && registerPassword?.touched}">
-                <div class="invalid-feedback" *ngIf="registerPassword?.errors?.['required']">
-                    La contraseña es requerida
-                </div>
-                <div class="invalid-feedback" *ngIf="registerPassword?.errors?.['minlength']">
-                    La contraseña debe tener al menos 6 caracteres
+                <div *ngIf="registerPassword?.invalid && registerPassword?.touched" class="error-text">
+                    <div *ngIf="registerPassword?.errors?.['required']">La contraseña es requerida</div>
+                    <div *ngIf="registerPassword?.errors?.['minlength']">La contraseña debe tener al menos 6 caracteres</div>
                 </div>
             </div>
 
@@ -81,10 +71,10 @@
                 <input type="password" id="registerConfirmPassword" formControlName="confirmPassword"
                     class="form-control"
                     [ngClass]="{'is-invalid': registerConfirmPassword?.invalid && registerConfirmPassword?.touched}">
-                <div class="invalid-feedback" *ngIf="registerConfirmPassword?.errors?.['required']">
-                    La confirmación de contraseña es requerida
+                <div *ngIf="registerConfirmPassword?.invalid && registerConfirmPassword?.touched" class="error-text">
+                    <div *ngIf="registerConfirmPassword?.errors?.['required']">La confirmación de contraseña es requerida</div>
                 </div>
-                <div class="invalid-feedback" *ngIf="registerForm.errors?.['passwordMismatch']">
+                <div *ngIf="registerForm.errors?.['passwordMismatch'] && registerConfirmPassword?.touched" class="error-text">
                     Las contraseñas no coinciden
                 </div>
             </div>
