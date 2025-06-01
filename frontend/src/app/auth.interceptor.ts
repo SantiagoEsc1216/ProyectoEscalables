@@ -1,4 +1,4 @@
-// src/app/auth.interceptor.ts
+
 import { HttpInterceptorFn } from '@angular/common/http';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
@@ -9,7 +9,6 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
       headers: req.headers.set('Authorization', `Bearer ${token}`)
     });
 
-    console.log('Token enviado en la petición:', cloned);
 
     return next(cloned);
   }

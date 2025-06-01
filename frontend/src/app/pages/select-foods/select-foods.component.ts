@@ -44,6 +44,7 @@ export class SelectFoodsComponent implements OnInit {
         }
       },
       error: () => {
+        console.log("load schedule");
         this.router.navigate(['/']);
       }
     });
@@ -65,12 +66,14 @@ export class SelectFoodsComponent implements OnInit {
     this.orderService.getCurrentOrder().subscribe({
       next: (order) => {
         if (!order) {
+          console.log("load curren !order");
           this.router.navigate(['/']);
           return;
         }
         this.currentOrder = order;
       },
-      error: () => {
+      error: (error) => {
+        console.log("error", error);
         this.router.navigate(['/']);
       }
     });
@@ -89,7 +92,7 @@ export class SelectFoodsComponent implements OnInit {
 
   getTotalPrice(): number {
     return this.selectedFoods.reduce((total, food) => {
-      return total + (parseFloat(food.price) * food.amount);
+      return  total + (parseFloat(food.price) * food.amount);
     }, 0);
   }
 
@@ -98,14 +101,14 @@ export class SelectFoodsComponent implements OnInit {
   }
 
   continueToPayment() {
-    if (this.currentOrder && this.currentOrder.id) {
+    if (this.currentOrder) {
       const updatedOrder: Order = {
         ...this.currentOrder,
         foods: this.getSelectedFoods(),
-        price: this.getTotalPrice()
+        price: this.getTotalPrice() +  this.currentOrder.price
       };
       
-      this.orderService.updateOrder(this.currentOrder.id, updatedOrder).subscribe({
+      this.orderService.saveLocalOrder(updatedOrder).subscribe({
         next: () => {
           this.router.navigate(['/payOrder', this.schedule?.id]);
         },

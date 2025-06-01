@@ -49,6 +49,7 @@ export class PayOrderComponent implements OnInit {
         return;
       }
       this.order = order;
+      console.log(order);
       this.selectedSeats = order.seats;
       this.loadMovieDetails(order.schedule.movieId);
     });
@@ -97,7 +98,7 @@ export class PayOrderComponent implements OnInit {
       setTimeout(() => {
         this.isProcessing = false;
         this.orderService.confirmOrder(this.order!).subscribe(() => {
-          this.router.navigate(['/order-confirmation', this.order?.id]);
+          this.router.navigate(['/order', this.order?.id]);
         });
       }, 2000);
     } else {

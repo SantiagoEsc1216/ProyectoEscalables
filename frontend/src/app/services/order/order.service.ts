@@ -5,6 +5,7 @@ import { Order } from './order.interface';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
+import { of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +18,23 @@ export class OrderService {
 
   createOrder(order: Partial<Order>): Observable<Order> {
     return this.http.post<Order>(this.apiUrl, order);
+  }
+
+  
+  saveLocalOrder(order: Partial<Order>): Observable<Order> {
+    const newOrder: Order = {
+      id: `o${Date.now()}`,
+      user: String(order.user),
+      schedule: order.schedule!,
+      foods: order.foods || [],
+      seats: order.seats || [],
+      price: order.price || 0,
+      date: new Date()
+    };
+
+    this.currentOrder = newOrder;
+    console.log("ORDER: ",this.currentOrder);
+    return of(newOrder);
   }
 
   getCurrentOrder(): Observable<Order | null> {

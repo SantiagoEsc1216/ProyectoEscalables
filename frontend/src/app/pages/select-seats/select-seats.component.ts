@@ -104,18 +104,18 @@ export class SelectSeatsComponent implements OnInit {
         this.router.navigate(['/login']);
         return;
       }
-      console.log(userStr);
-
       const user = JSON.parse(userStr);
+      console.log(user);
       const order: Partial<Order> = {
-        user: user.id,
+        user: String(user.id),
         schedule: this.schedule,
         seats: this.selectedSeats,
         foods: [],
-        price: 0
+        price: this.selectedSeats.length * 50
       };
+      console.log("seats order", order);
       
-      this.orderService.createOrder(order).subscribe({
+      this.orderService.saveLocalOrder(order).subscribe({
         next: () => {
           this.router.navigate(['/selectFoods', this.schedule?.id]);
         },
