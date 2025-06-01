@@ -27,7 +27,7 @@ const foodSchema = new mongoose.Schema({
 const orderSchema = new mongoose.Schema({
     id: {type: String, requiered: true, unique: true},
     user: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         required: true
     },
