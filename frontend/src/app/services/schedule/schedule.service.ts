@@ -18,6 +18,8 @@ export class ScheduleService {
     return this.http.get<Schedule[]>(this.apiUrl);
   }
 
+  
+
   getSchedulesByMovieId(movieId: string): Observable<Schedule[]> {
     return this.http.get<Schedule[]>(`${this.apiUrl}/movie/${movieId}`);
   }

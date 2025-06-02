@@ -1,4 +1,6 @@
 const Schedule = require('../models/schedule.model');
+const Counter = require("../models/counter.model");
+
 
 // Get all schedules
 exports.getSchedules = async (req, res) => {
@@ -65,11 +67,19 @@ exports.getSchedule = async (req, res) => {
 
 // Create a new schedule
 exports.createSchedule = async (req, res) => {
-    const schedule = new Schedule(req.body);
+    let schedule = new Schedule(req.body);
     try {
+        let counter = await Counter.findOneAndUpdate(
+            { model: "Schedule" },
+            { $inc: { count: 10 } },
+            { new: true, upsert: true }
+          );
+    
+        schedule.id = counter.count; 
         const newSchedule = await schedule.save();
         res.status(201).json(newSchedule);
     } catch (error) {
+        console.log(error.message);
         res.status(400).json({ message: error.message });
     }
 };
@@ -77,8 +87,8 @@ exports.createSchedule = async (req, res) => {
 // Update a schedule
 exports.updateSchedule = async (req, res) => {
     try {
-        const schedule = await Schedule.findByIdAndUpdate(
-            req.params.id,
+        const schedule = await Schedule.findOneAndUpdate(
+            {id: req.params.id},
             req.body,
             { new: true }
         ).populate('movieId');
@@ -95,7 +105,7 @@ exports.updateSchedule = async (req, res) => {
 // Delete a schedule
 exports.deleteSchedule = async (req, res) => {
     try {
-        const schedule = await Schedule.findByIdAndDelete(req.params.id);
+        const schedule = await Schedule.findOneAndDelete({id: req.params.id});
         if (!schedule) {
             return res.status(404).json({ message: 'Schedule not found' });
         }
@@ -111,7 +121,7 @@ exports.updateSeatAvailability = async (req, res) => {
         const { scheduleId, seatId } = req.params;
         const { free } = req.body;
 
-        const schedule = await Schedule.findById(scheduleId);
+        const schedule = await Schedule.findOne({id:scheduleId});
         if (!schedule) {
             return res.status(404).json({ message: 'Schedule not found' });
         }

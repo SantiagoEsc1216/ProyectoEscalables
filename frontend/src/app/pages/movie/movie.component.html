@@ -32,8 +32,8 @@
         <div class="schedules-container">
           <div class="schedule-card" *ngFor="let schedule of schedules">
             <div class="schedule-info">
-              <h3>{{formatDate(schedule.date)}}</h3>
-              <p class="schedule-time">{{formatTime(schedule.hour)}}</p>
+              <h3>{{schedule.date}}</h3>
+              <p class="schedule-time">{{schedule.hour}}</p>
               <p class="schedule-room">Sala {{schedule.room}}</p>
               <button class="btn btn-primary" (click)="selectSeats(schedule.id)">
                 Seleccionar Asientos
@@ -108,7 +108,7 @@
                 </ngb-rating>
               </div>
             </div>
-            <p class="review-date">{{review.date | date:'longDate'}}</p>
+            <p class="review-date">{{review.date}}</p>
             <p class="review-comment">{{review.comment}}</p>
           </div>
         </div>

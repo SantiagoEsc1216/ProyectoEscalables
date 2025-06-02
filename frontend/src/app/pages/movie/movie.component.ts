@@ -76,10 +76,11 @@ export class MovieComponent implements OnInit {
 
   private loadReviews(movieId: string) {
     this.reviewService.getReviewsByMovieId(movieId).subscribe(reviews => {      // Separar la reseña del usuario actual del resto de reseñas
-      const userStr = localStorage.getItem('currentUser');
+      const userStr = localStorage.getItem('user');
       if (userStr) {
         const user = JSON.parse(userStr);
         console.log("Revies:", this.userReview)
+        console.log(reviews);
         this.userReview = reviews.find(r => r.user.email === user.email) || null;
 
         if(this.userReview){

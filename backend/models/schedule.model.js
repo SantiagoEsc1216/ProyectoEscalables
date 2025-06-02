@@ -8,11 +8,11 @@ const scheduleSchema = new mongoose.Schema({
     },
     movieId: {type: String},
     date: {
-        type: Date,
+        type: String,
         required: true
     },
     hour: {
-        type: Date,
+        type: String,
         required: true
     },
     room: {

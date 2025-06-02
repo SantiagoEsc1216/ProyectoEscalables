@@ -1,0 +1,101 @@
+<div class="schedule-management">
+    <h2>Gestión de Horarios</h2>
+    
+    <button (click)="showAddForm()" class="add-button">Agregar Nuevo Horario</button>
+
+    <div *ngIf="showForm" class="schedule-form">
+      <h3>{{ editingSchedule ? 'Editar' : 'Agregar' }} Horario</h3>
+      <form [formGroup]="scheduleForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <label>Película:</label>
+          <select formControlName="movieId" required>
+            <option value="">Seleccione una película</option>
+            <option *ngFor="let movie of movies" [value]="movie.id">{{ movie.title }}</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label>Sala (1-10):</label>
+          <input type="number" formControlName="room" min="1" max="10" required>
+        </div>
+        
+        <div class="form-group">
+          <label>Fecha:</label>
+          <input type="date" formControlName="date" required>
+        </div>
+        
+        <div class="form-group">
+            <label>Hora (24h):</label>
+            <input
+              type="time"
+              formControlName="hour"
+              required
+              step="60"
+              [attr.min]="'00:00'"
+              [attr.max]="'23:59'"
+            >
+          </div>
+        <div class="form-actions">
+          <button type="submit" [disabled]="!scheduleForm.valid">Guardar</button>
+          <button type="button" (click)="cancelEdit()">Cancelar</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="schedule-list">
+      <table>
+        <thead>
+          <tr>
+            <th>Película</th>
+            <th>Sala</th>
+            <th>Fecha</th>
+            <th>Hora</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let schedule of schedules">
+            <td>{{ getMovieTitle(schedule.movieId) }}</td>
+            <td>{{ schedule.room }}</td>
+            <td>{{ schedule.date | date:'dd/MM/yyyy' }}</td>
+            <td>{{ schedule.hour }}</td>
+            <td>
+              <button (click)="editSchedule(schedule)">Editar</button>
+              <button (click)="deleteSchedule(schedule.id)">Eliminar</button>
+              <button (click)="showSeats(schedule)">Ver Asientos</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div *ngIf="showSeatsModal" class="seats-modal">
+      <div class="seats-content">
+        <h3>Asientos - Sala {{ selectedSchedule?.room }}</h3>
+        <div class="seats-grid">
+          <div *ngFor="let row of [0,1,2,3,4,5,6,7,8,9]" class="seat-row">
+            <div 
+                *ngFor="let col of [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19]" 
+                class="seat" 
+                [class.occupied]="isSeatOccupied(row, col)"
+                (click)="toggleSeat(row, col)"
+                [title]="getSeatInfo(row, col).displayName"
+                >
+                {{ getSeatInfo(row, col).displayName }}
+                </div>
+          </div>
+        </div>
+        <div class="seats-legend">
+          <div class="legend-item">
+            <div class="seat available"></div>
+            <span>Disponible</span>
+          </div>
+          <div class="legend-item">
+            <div class="seat occupied"></div>
+            <span>Ocupado</span>
+          </div>
+        </div>
+        <button (click)="closeSeatsModal()">Cerrar</button>
+      </div>
+    </div>
+  </div>
