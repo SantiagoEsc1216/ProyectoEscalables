@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { Review } from './review.interface';
 import { environment } from '../../../environments/environment';
 
@@ -17,16 +17,30 @@ export class ReviewService {
   }
 
   getReviewsByMovieId(movieId: string): Observable<Review[]> {
-    return this.http.get<Review[]>(`${this.apiUrl}/movie/${movieId}`);
+    return this.http.get<any[]>(`${this.apiUrl}/movie/${movieId}`).pipe(
+      map(reviews => reviews.map(review => ({
+        ...review,
+        id: review.id || review._id
+      })))
+    );
   }
 
   getReviewsByUserId(userId: string): Observable<Review[]> {
     return this.http.get<Review[]>(`${this.apiUrl}/user/${userId}`);
   }
 
-  addReview(review: Review): Observable<Review> {
+  addReview(review: any): Observable<Review> {
     return this.http.post<Review>(this.apiUrl, {
-      userId: review.user.id,
+      userId: review.user,
+      movieId: review.movieId,
+      comment: review.comment,
+      rate: review.rate
+    });
+  }
+
+  updateReview(reviewId: string, review: any): Observable<Review> {
+    return this.http.put<Review>(`${this.apiUrl}/${reviewId}`, {
+      userId: review.user,
       movieId: review.movieId,
       comment: review.comment,
       rate: review.rate

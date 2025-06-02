@@ -1,4 +1,5 @@
 const Review = require('../models/review.model');
+const User = require('../models/user.model');
 
 // Get all reviews
 const getAllReviews = async (req, res) => {
@@ -41,6 +42,7 @@ const getReviewsByUserId = async (req, res) => {
 // Create a new review
 const createReview = async (req, res) => {
     try {
+        console.log(req.body.userId);
         const user = await User.findOne({ id: req.body.userId });
         if (!user) {
             return res.status(404).json({ message: 'Usuario no encontrado' });
@@ -64,9 +66,41 @@ const createReview = async (req, res) => {
     }
 };
 
+// Update a review
+const updateReview = async (req, res) => {
+    try {
+        const user = await User.findOne({ id: req.body.userId });
+        if (!user) {
+            return res.status(404).json({ message: 'Usuario no encontrado' });
+        }
+        console.log(req.params.id)
+        const review = await Review.findById(req.params.id);
+        if (!review) {
+            return res.status(404).json({ message: 'Reseña no encontrada' });
+        }
+
+        // Verificar que el usuario sea el propietario de la reseña
+        if (review.user.toString() !== user._id.toString()) {
+            return res.status(403).json({ message: 'No tienes permiso para actualizar esta reseña' });
+        }
+
+        review.comment = req.body.comment;
+        review.rate = req.body.rate;
+
+        const updatedReview = await review.save();
+        const populatedReview = await Review.findById(updatedReview._id)
+            .populate('user', 'name email');
+
+        res.json(populatedReview);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
+
 module.exports = {
     getAllReviews,
     getReviewsByMovieId,
     getReviewsByUserId,
-    createReview
+    createReview,
+    updateReview
 }; 

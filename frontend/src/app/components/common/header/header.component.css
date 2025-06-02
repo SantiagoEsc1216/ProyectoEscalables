@@ -1,7 +1,7 @@
 .header {
-    background-color: var(--background-dark);
-    border-bottom: 1px solid var(--purple);
+    background-color: #1a1a1a;
     padding: 1rem 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .navbar {
@@ -13,9 +13,6 @@
     font-size: 1.5rem;
     font-weight: bold;
     text-decoration: none;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
 }
 
 .brand-text {
@@ -25,18 +22,10 @@
     font-weight: 700;
 }
 
-.navbar-toggler {
-    border: 1px solid var(--purple);
-    color: var(--text-light);
-}
-
-.navbar-toggler:focus {
-    box-shadow: 0 0 0 0.2rem rgba(106, 27, 154, 0.25);
-}
-
 .nav-link {
-    color: var(--text-light);
-    padding: 0.5rem 1rem;
+    color: #fff !important;
+    font-size: 1.1rem;
+    padding: 0.5rem 1rem !important;
     transition: color 0.3s ease;
 }
 
@@ -46,71 +35,110 @@
 
 .nav-link.active {
     color: var(--accent-yellow);
-    font-weight: 500;
 }
 
-.user-menu .btn {
-    color: var(--text-light);
+.user-menu {
+    margin-left: 1rem;
+}
+
+.dropdown-toggle {
     background: transparent;
     border: 1px solid var(--purple);
+    color: #fff;
     padding: 0.5rem 1rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
+    border-radius: 4px;
+    transition: all 0.3s ease;
 }
 
-.user-menu .btn:hover {
+.dropdown-toggle:hover {
     background-color: var(--purple);
-    color: var(--text-light);
+    color: #fff;
 }
 
 .dropdown-menu {
-    background-color: var(--card-bg);
-    border: 1px solid var(--purple);
-    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    background-color: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 4px;
+    padding: 0.5rem 0;
 }
 
 .dropdown-item {
-    color: var(--text-light);
+    color: #fff;
     padding: 0.5rem 1rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
+    transition: all 0.3s ease;
 }
 
 .dropdown-item:hover {
-    background-color: var(--purple);
+    background-color: #333;
     color: var(--text-light);
 }
 
 .dropdown-divider {
-    border-color: var(--purple);
+    border-color: #333;
+    margin: 0.5rem 0;
 }
 
 .btn-primary {
     background-color: var(--purple);
     border-color: var(--purple);
-    color: var(--text-light);
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
+    color: #fff;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    transition: all 0.3s ease;
 }
 
 .btn-primary:hover {
     background-color: var(--accent-yellow);
     border-color: var(--accent-yellow);
-    color: var(--background-dark);
 }
 
+/* Estilos para el menú móvil */
+.navbar-toggler {
+    border-color: var(--accent-yellow);
+    padding: 0.25rem 0.5rem;
+}
+
+.navbar-toggler:focus {
+    box-shadow: none;
+}
+
+
+/* Estilos para los iconos */
+.fas {
+    margin-right: 0.5rem;
+}
+
+/* Estilos para el nombre de usuario */
+.dropdown-toggle i.fa-user-circle {
+    margin-right: 0.5rem;
+    font-size: 1.2rem;
+}
+
+/* Estilos para el botón de inicio de sesión */
+.btn-primary i {
+    margin-right: 0.5rem;
+}
+
+/* Estilos responsivos */
 @media (max-width: 991.98px) {
     .navbar-collapse {
-        background-color: var(--background-dark);
+        background-color: #1a1a1a;
         padding: 1rem;
-        border-radius: 8px;
+        border-radius: 4px;
         margin-top: 1rem;
     }
 
     .user-menu {
-        margin-top: 1rem;
+        margin: 1rem 0 0 0;
+    }
+
+    .dropdown-menu {
+        background-color: transparent;
+        border: none;
+        padding: 0;
+    }
+
+    .dropdown-item {
+        padding: 0.5rem 0;
     }
 }

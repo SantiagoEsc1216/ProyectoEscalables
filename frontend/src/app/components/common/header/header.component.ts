@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { UserService } from '../../../services/user/user.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-header',
@@ -10,27 +12,40 @@ import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnDestroy {
   isLoggedIn: boolean = false;
   isAdmin: boolean = false;
   userName: string = '';
+  private authSubscription: Subscription | null = null;
 
-  constructor() {
-    // TODO: Implementar la lógica de autenticación real
-    // Por ahora usamos datos de ejemplo
-    this.isLoggedIn = false;
-    this.isAdmin = false;
-    this.userName = '';
-  }
+  constructor(
+    private userService: UserService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
-    // TODO: Suscribirse a los cambios del estado de autenticación
+    // Suscribirse a los cambios del estado de autenticación
+    this.authSubscription = this.userService.getCurrentUser().subscribe(user => {
+      if (user) {
+        this.isLoggedIn = true;
+        this.userName = user.name;
+        this.isAdmin = user.role === 'admin';
+      } else {
+        this.isLoggedIn = false;
+        this.userName = '';
+        this.isAdmin = false;
+      }
+    });
+  }
+
+  ngOnDestroy(): void {
+    if (this.authSubscription) {
+      this.authSubscription.unsubscribe();
+    }
   }
 
   logout(): void {
-    // TODO: Implementar la lógica de cierre de sesión
-    this.isLoggedIn = false;
-    this.isAdmin = false;
-    this.userName = '';
+    this.userService.logout();
+    this.router.navigate(['/']);
   }
 }

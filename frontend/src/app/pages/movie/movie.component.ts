@@ -10,7 +10,9 @@ import { Movie } from '../../services/movie/movie.interface';
 import { Schedule } from '../../services/schedule/schedule.interface';
 import { Review } from '../../services/review/review.interface';
 import { Order } from '../../services/order/order.interface';
+import { User } from '../../services/user/user.interface';
 import { NgbNavModule, NgbRatingModule } from '@ng-bootstrap/ng-bootstrap';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-movie',
@@ -27,7 +29,8 @@ export class MovieComponent implements OnInit {
   averageRating: number = 0;
   canReview: boolean = false;
   reviewForm: FormGroup;
-  currentUserId: string = 'u1'; // Esto debería venir del servicio de autenticación
+  userReview: Review | null = null;
+  isEditing: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -36,7 +39,8 @@ export class MovieComponent implements OnInit {
     private scheduleService: ScheduleService,
     private reviewService: ReviewService,
     private orderService: OrderService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private cdr: ChangeDetectorRef
   ) {
     this.reviewForm = this.fb.group({
       comment: ['', [Validators.required, Validators.minLength(10)]],
@@ -58,7 +62,6 @@ export class MovieComponent implements OnInit {
     this.movieService.getMovie(movieId).subscribe(movie => {
       this.movie = movie;
       if (this.movie) {
-        console.log(this.movie);
         this.loadSchedules(movieId);
         this.loadReviews(movieId);
       }
@@ -72,9 +75,25 @@ export class MovieComponent implements OnInit {
   }
 
   private loadReviews(movieId: string) {
-    this.reviewService.getReviewsByMovieId(movieId).subscribe(reviews => {
-      this.reviews = reviews;
-      console.log("Revies:", this.reviews);
+    this.reviewService.getReviewsByMovieId(movieId).subscribe(reviews => {      // Separar la reseña del usuario actual del resto de reseñas
+      const userStr = localStorage.getItem('currentUser');
+      if (userStr) {
+        const user = JSON.parse(userStr);
+        console.log("Revies:", this.userReview)
+        this.userReview = reviews.find(r => r.user.email === user.email) || null;
+
+        if(this.userReview){
+          this.reviewForm.patchValue({
+            comment: this.userReview.comment,
+            rate: this.userReview.rate
+          });
+        }
+        
+        this.reviews = reviews.filter(r => r.user.email !== user.email);
+        console.log("Revies:", this.userReview);
+      } else {
+        this.reviews = reviews;
+      }
       this.calculateAverageRating();
     });
   }
@@ -89,12 +108,45 @@ export class MovieComponent implements OnInit {
   }
 
   private checkIfUserCanReview(movieId: string) {
-    const userStr = localStorage.getItem('user');
+    const userStr = localStorage.getItem('currentUser');
     if (userStr) {
       const user = JSON.parse(userStr);
-      this.orderService.getOrdersByUser(user.id).subscribe(orders => {
-        this.canReview = orders.length > 0;
+  
+      // Paso 1: Verifica que haya ordenado al menos una vez
+      this.orderService.getOrdersByUser(user.id).subscribe({
+        next: orders => {
+          const hasOrders = orders.length > 0;
+  
+          if (!hasOrders) {
+            this.canReview = false;
+            return;
+          }
+  
+          this.reviewService.getReviewsByUserId(user.id).subscribe({
+            next: reviews => {
+              const existingReview = reviews.find(r => r.movieId === movieId);
+              if (existingReview) {
+                this.userReview = existingReview;
+                this.reviewForm.patchValue({
+                  comment: existingReview.comment,
+                  rate: existingReview.rate
+                });
+              }
+              this.canReview = true;
+            },
+            error: err => {
+              console.error('Error al obtener reviews:', err);
+              this.canReview = false;
+            }
+          });
+        },
+        error: error => {
+          console.error('Error al obtener órdenes:', error);
+          this.canReview = false;
+        }
       });
+    } else {
+      this.canReview = false;
     }
   }
 
@@ -120,26 +172,62 @@ export class MovieComponent implements OnInit {
 
   submitReview() {
     if (this.reviewForm.valid && this.movie) {
-      const newReview: Review = {
-        id: `r${Date.now()}`,
-        user: {
-          id: this.currentUserId,
-          name: 'Usuario Actual', // Esto debería venir del servicio de autenticación
-          email: 'usuario@example.com',
-          role: 'viewer'
-        },
-        movieId: this.movie.id,
-        comment: this.reviewForm.get('comment')?.value,
-        rate: this.reviewForm.get('rate')?.value,
-        date: new Date()
-      };
+      const userStr = localStorage.getItem('currentUser');
+      if (userStr) {
+        const user = JSON.parse(userStr);
+        const reviewData = {
+          user: user.id,
+          movieId: this.movie.id,
+          comment: this.reviewForm.get('comment')?.value,
+          rate: this.reviewForm.get('rate')?.value,
+          date: new Date()
+        };
 
-      this.reviewService.addReview(newReview).subscribe(() => {
-        this.reviews.unshift(newReview);
-        this.calculateAverageRating();
-        this.reviewForm.reset({ rate: 5 });
-        this.canReview = false; // Evitar múltiples reseñas
+        if (this.userReview) {
+          console.log(this.userReview);
+          // Actualizar reseña existente
+          this.reviewService.updateReview(this.userReview._id, reviewData).subscribe(updatedReview => {
+            const index = this.reviews.findIndex(r => r.id === updatedReview.id);
+            if (index !== -1) {
+              this.reviews[index] = updatedReview;
+            }
+            this.userReview = updatedReview;
+            this.calculateAverageRating();
+            this.isEditing = false;
+          });
+        } else {
+          // Crear nueva reseña
+          this.reviewService.addReview(reviewData).subscribe(createdReview => {
+            this.reviews.unshift(createdReview);
+            this.userReview = createdReview;
+            this.calculateAverageRating();
+            this.reviewForm.reset({ rate: 5 });
+          });
+        }
+      }
+    }
+  }
+
+  editReview() {
+    this.isEditing = true;
+    if (this.userReview) {
+      this.reviewForm.patchValue({
+        comment: this.userReview.comment,
+        rate: this.userReview.rate
       });
+    }
+    this.cdr.detectChanges();
+  }
+
+  cancelEdit() {
+    this.isEditing = false;
+    if (this.userReview) {
+      this.reviewForm.patchValue({
+        comment: this.userReview.comment,
+        rate: this.userReview.rate
+      });
+    } else {
+      this.reviewForm.reset({ rate: 5 });
     }
   }
 }

@@ -58,22 +58,35 @@
         <div class="reviews-container">
           <!-- Formulario de Reseña -->
           <div class="review-form-container" *ngIf="canReview">
-            <h3>Escribe tu Reseña</h3>
+            <h3>{{ userReview ? 'Tu Reseña' : 'Escribe tu Reseña' }}</h3>
             <form [formGroup]="reviewForm" (ngSubmit)="submitReview()" class="review-form">
               <div class="form-group">
                 <label for="rating">Calificación:</label>
-                <ngb-rating formControlName="rate" [max]="5" style="color: var(--accent-yellow);">
+                <ngb-rating formControlName="rate" [max]="5" style="color: var(--accent-yellow);" [readonly]="!!userReview && !isEditing">
                 </ngb-rating>
               </div>
               <div class="form-group">
                 <label for="comment">Comentario:</label>
                 <textarea id="comment" formControlName="comment" class="form-control" rows="4"
-                  placeholder="Escribe tu opinión sobre la película (mínimo 10 caracteres)">
+                  placeholder="Escribe tu opinión sobre la película (mínimo 10 caracteres)"
+                  [readonly]="!!userReview && !isEditing">
                 </textarea>
               </div>
-              <button type="submit" class="btn btn-primary" [disabled]="!reviewForm.valid">
-                Enviar Reseña
-              </button>
+              <div class="review-actions">
+                <ng-container *ngIf="userReview && !isEditing">
+                  <button type="button" class="btn btn-primary" (click)="editReview()">
+                    <i class="fas fa-edit"></i> Editar Reseña
+                  </button>
+                </ng-container>
+                <ng-container *ngIf="!userReview || isEditing">
+                  <button type="submit" class="btn btn-primary" [disabled]="!reviewForm.valid">
+                    {{ userReview ? 'Actualizar Reseña' : 'Enviar Reseña' }}
+                  </button>
+                  <button *ngIf="isEditing" type="button" class="btn btn-secondary" (click)="cancelEdit()">
+                    Cancelar
+                  </button>
+                </ng-container>
+              </div>
             </form>
           </div>
 

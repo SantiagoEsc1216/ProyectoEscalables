@@ -76,7 +76,6 @@ exports.createOrder = async (req, res) => {
 
         // Update seats in schedule
         for (const seatId of req.body.seats) {
-            console.log("seats:", schedule.seats,"\n");
             const seat = schedule.seats.find(s => s.id === seatId);
             if (!seat) {
                 return res.status(400).json({ message: `Seat ${seatId} not found` });
@@ -84,9 +83,7 @@ exports.createOrder = async (req, res) => {
             if (!seat.free) {
                 return res.status(400).json({ message: `Seat ${seatId} is already taken` });
             }
-            console.log("seat:", seat,"\n");
             seat.free = false;
-            console.log("seat:", seat,"\n");
         }
         schedule.markModified('seats');
         await schedule.save();

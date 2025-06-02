@@ -4,7 +4,8 @@ const {
     getAllReviews,
     getReviewsByMovieId,
     getReviewsByUserId,
-    createReview
+    createReview,
+    updateReview
 } = require('../controllers/review.controller');
 
 // Get all reviews
@@ -18,5 +19,8 @@ router.get('/user/:userId', getReviewsByUserId);
 
 // Create a new review
 router.post('/', createReview);
+
+// Update a review
+router.put('/:id', updateReview);
 
 module.exports = router; 
