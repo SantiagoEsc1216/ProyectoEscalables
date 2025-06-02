@@ -65,6 +65,10 @@ export class OrderService {
     return this.http.get<Order[]>(`${this.apiUrl}/user/${userId}`);
   }
 
+  getOrdersByUserAndMovie(userId: string, movieId: string): Observable<Order[]> {
+    return this.http.get<Order[]>(`${this.apiUrl}/user/${userId}/${movieId}`);
+  }
+
   updateOrder(id: string, order: Order): Observable<Order> {
     return this.http.put<Order>(`${this.apiUrl}/${id}`, order);
   }

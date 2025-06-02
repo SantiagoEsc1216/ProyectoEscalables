@@ -113,8 +113,9 @@ export class MovieComponent implements OnInit {
       const user = JSON.parse(userStr);
   
       // Paso 1: Verifica que haya ordenado al menos una vez
-      this.orderService.getOrdersByUser(user.id).subscribe({
+      this.orderService.getOrdersByUserAndMovie(user.id, movieId).subscribe({
         next: orders => {
+          console.log("orders:", orders);
           const hasOrders = orders.length > 0;
   
           if (!hasOrders) {

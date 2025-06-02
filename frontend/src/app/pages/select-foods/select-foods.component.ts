@@ -92,7 +92,7 @@ export class SelectFoodsComponent implements OnInit {
 
   getTotalPrice(): number {
     return this.selectedFoods.reduce((total, food) => {
-      return  total + (parseFloat(food.price) * food.amount);
+      return  total + (food.price * food.amount);
     }, 0);
   }
 
@@ -130,6 +130,6 @@ export class SelectFoodsComponent implements OnInit {
   }
 
   getSubtotal(food: Food): string {
-    return (parseFloat(food.price) * food.amount).toFixed(2);
+    return (food.price * food.amount).toFixed(2);
   }
 }

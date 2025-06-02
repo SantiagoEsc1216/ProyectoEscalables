@@ -9,6 +9,7 @@ router.get('/', verificarToken, permitirRol("admin"), orderController.getOrders)
 
 // Get orders by user
 router.get('/user/:userId', verificarToken, orderController.getOrdersByUser);
+router.get('/user/:userId/:movieId', verificarToken, orderController.getOrdersByUserAndMovie);
 
 // Get a single order
 router.get('/:id', verificarToken, orderController.getOrder);

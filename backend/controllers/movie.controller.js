@@ -1,4 +1,5 @@
 const Movie = require('../models/movie.model');
+const Counter = require("../models/counter.model");
 
 // Get all movies
 exports.getMovies = async (req, res) => {
@@ -26,7 +27,16 @@ exports.getMovie = async (req, res) => {
 
 // Create a new movie
 exports.createMovie = async (req, res) => {
-    const movie = new Movie(req.body);
+    let movie = new Movie(req.body);
+
+    let counter = await Counter.findOneAndUpdate(
+        { model: "Movie" },
+        { $inc: { count: 10 } },
+        { new: true, upsert: true }
+      );
+
+      movie.id = counter.count; 
+
     try {
         const newMovie = await movie.save();
         res.status(201).json(newMovie);
@@ -35,27 +45,27 @@ exports.createMovie = async (req, res) => {
     }
 };
 
-// Update a movie
 exports.updateMovie = async (req, res) => {
     try {
-        const movie = await Movie.findByIdAndUpdate(
-            req.params.id,
-            req.body,
-            { new: true }
-        );
-        if (!movie) {
-            return res.status(404).json({ message: 'Movie not found' });
-        }
-        res.json(movie);
+      const movie = await Movie.findOneAndUpdate(
+        {id: req.params.id },   // filtro
+        req.body,                 // datos a actualizar
+        { new: true }             // retorna el documento actualizado
+      );
+  
+      if (!movie) {
+        return res.status(404).json({ message: 'Movie not found' });
+      }
+  
+      res.json(movie);
     } catch (error) {
-        res.status(400).json({ message: error.message });
+      res.status(400).json({ message: error.message });
     }
-};
-
+  };
 // Delete a movie
 exports.deleteMovie = async (req, res) => {
     try {
-        const movie = await Movie.findByIdAndDelete(req.params.id);
+        const movie = await Movie.findOneAndDelete({id: req.params.id});
         if (!movie) {
             return res.status(404).json({ message: 'Movie not found' });
         }

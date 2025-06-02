@@ -1,53 +1,34 @@
 import { Injectable } from '@angular/core';
 import { Food } from './food.interface';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FoodService {
+  private apiUrl = `${environment.apiUrl}/api/food`;
 
-  private FOODS: Food[] = [
-    {
-      id: '1',
-      name: 'Palomitas',
-      image: 'https://comerbeber.com/archivos/imagen/2022/09/nachos-cv_1200.jpg',
-      price: '150.00',
-      amount: 0
-    },
-    {
-      id: '2',
-      name: 'HotDog',
-      image: 'https://comerbeber.com/archivos/imagen/2022/09/nachos-cv_1200.jpg',
-      price: '120.00',
-      amount: 0
-    },
-    {
-      id: '3',
-      name: 'Nachos',
-      image: 'https://comerbeber.com/archivos/imagen/2022/09/nachos-cv_1200.jpg',
-      price: '180.00',
-      amount: 0
-    },
-    {
-      id: '4',
-      name: 'Icee',
-      image: 'https://comerbeber.com/archivos/imagen/2022/09/nachos-cv_1200.jpg',
-      price: '90.00',
-      amount: 0
-    },
-    {
-      id: '5',
-      name: 'Coca-Cola',
-      image: 'https://comerbeber.com/archivos/imagen/2022/09/nachos-cv_1200.jpg',
-      price: '75.00',
-      amount: 0
-    }
-  ];
-  
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
-  getFoods() : Observable<Food[]>{
-    return of(this.FOODS);
+  getFoods(): Observable<Food[]> {
+    return this.http.get<Food[]>(this.apiUrl);
+  }
+
+  getFood(id: string): Observable<Food> {
+    return this.http.get<Food>(`${this.apiUrl}/${id}`);
+  }
+
+  createFood(food: Food): Observable<Food> {
+    return this.http.post<Food>(this.apiUrl, food);
+  }
+
+  updateFood(id: string, food: Food): Observable<Food> {
+    return this.http.put<Food>(`${this.apiUrl}/${id}`, food);
+  }
+
+  deleteFood(id: string): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${id}`);
   }
 }

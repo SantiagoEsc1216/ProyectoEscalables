@@ -82,7 +82,7 @@ export class PayOrderComponent implements OnInit {
   }
 
   getFoodSubtotal(food: Food): number {
-    return parseFloat(food.price) * food.amount;
+    return food.price * food.amount;
   }
 
   getTotalPrice(): number {

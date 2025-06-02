@@ -43,6 +43,35 @@ exports.getOrdersByUser = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+exports.getOrdersByUserAndMovie = async (req, res) => {
+    try {
+        // Buscar al usuario por su campo personalizado `id`
+        const user = await User.findOne({ id: req.params.userId });
+
+        if (!user) {
+            return res.status(404).json({ message: 'Usuario no encontrado' });
+        }
+
+        // Buscar las órdenes usando el _id real de MongoDB
+        const orders = await Order.find({ user: user._id })
+            .populate('user', 'name email')
+            .populate({
+                path: 'schedule',
+                populate: {
+                    path: 'movieId'
+                }
+            });
+            console.log(req.params.movieId, orders);
+            const filteredOrders = orders.filter(order => 
+                order.schedule?.movieId === req.params.movieId
+            );
+    
+
+        res.json(filteredOrders);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
 
 // Get a single order
 exports.getOrder = async (req, res) => {

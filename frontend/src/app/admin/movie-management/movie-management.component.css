@@ -1,0 +1,208 @@
+.movie-management {
+    padding: 1.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .add-button {
+    background-color: var(--purple);
+    color: var(--text-light);
+    padding: 0.75rem 1.25rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+  }
+  
+  .add-button:hover {
+    background-color: var(--accent-yellow);
+    color: var(--background-dark);
+  }
+  
+  .movie-form {
+    background-color: var(--card-bg);
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  }
+  
+  .movie-form h3 {
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    color: var(--text-light);
+    font-weight: 600;
+  }
+  
+  .form-group {
+    margin-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .form-group label {
+    font-weight: 500;
+    color: var(--text-light);
+  }
+  
+  .form-group input,
+  .form-group textarea {
+    background-color: var(--background-dark);
+    border: 1px solid var(--purple);
+    color: var(--text-light);
+    padding: 0.75rem;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+  }
+  
+  .form-group textarea {
+    resize: vertical;
+    min-height: 80px;
+  }
+  
+  .form-group input:focus,
+  .form-group textarea:focus {
+    border-color: var(--accent-yellow);
+    box-shadow: 0 0 0 0.2rem rgba(255, 193, 7, 0.25);
+    outline: none;
+  }
+  
+  .form-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+  }
+  
+  .form-actions button {
+    padding: 0.75rem 1.25rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+  }
+  
+  .form-actions button[type="submit"] {
+    background-color: var(--purple);
+    color: var(--text-light);
+  }
+  
+  .form-actions button[type="submit"]:hover:not(:disabled) {
+    background-color: var(--accent-yellow);
+    color: var(--background-dark);
+  }
+  
+  .form-actions button[type="submit"]:disabled {
+    background-color: #6c757d;
+    cursor: not-allowed;
+  }
+  
+  .form-actions button[type="button"] {
+    background-color: transparent;
+    border: 1px solid var(--purple);
+    color: var(--text-light);
+  }
+  
+  .form-actions button[type="button"]:hover {
+    background-color: var(--purple);
+    color: var(--text-light);
+  }
+  
+  .movie-list {
+    background-color: var(--card-bg);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  .movie-list table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .movie-list th,
+  .movie-list td {
+    padding: 0.75rem;
+    text-align: left;
+    border-bottom: 1px solid #343a40;
+    color: var(--text-light);
+  }
+  
+  .movie-list th {
+    background-color: var(--background-dark);
+    font-weight: bold;
+  }
+  
+  .movie-list tr:hover {
+    background-color: var(--background-dark);
+  }
+  
+  .movie-poster {
+    width: 50px;
+    height: 75px;
+    object-fit: cover;
+    border-radius: 4px;
+  }
+
+  .movie-poster-preview {
+    width: 300px;
+    height: auto;
+    object-fit: cover;
+    border-radius: 4px;
+    margin: auto;
+  }
+  
+
+  
+  .movie-list button {
+    padding: 0.5rem 0.75rem;
+    margin-right: 0.5rem;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: all 0.3s ease;
+  }
+  
+  .movie-list button:first-of-type {
+    background-color: #ffc107;
+    color: #212529;
+  }
+  
+  .movie-list button:first-of-type:hover {
+    background-color: #e0a800;
+  }
+  
+  .movie-list button:last-of-type {
+    background-color: #dc3545;
+    color: white;
+  }
+  
+  .movie-list button:last-of-type:hover {
+    background-color: #c82333;
+  }
+  
+  @media (max-width: 768px) {
+    .movie-list {
+      overflow-x: auto;
+    }
+  
+    .movie-list table {
+      min-width: 600px;
+    }
+  
+    .form-actions {
+      flex-direction: column;
+    }
+  
+    .form-actions button {
+      width: 100%;
+    }
+  }
+  

@@ -1,0 +1,84 @@
+
+<div class="movie-management">
+  <h2>Gestión de Películas</h2>
+  
+  <button (click)="showAddForm()" class="add-button">Agregar Nueva Película</button>
+
+  <div *ngIf="showForm" class="movie-form">
+    <h3>{{ editingMovie ? 'Editar' : 'Agregar' }} Película</h3>
+    <form [formGroup]="movieForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label>Título:</label>
+        <input type="text" formControlName="title" required>
+      </div>
+      
+      <div class="form-group">
+        <label>Poster:</label>
+        <input type="text" formControlName="poster" (input)="posterPreview = movieForm.get('poster')?.value" />
+      </div>
+
+      <div *ngIf="posterPreview" class="form-group">
+        <label>Vista previa del póster:</label>
+        <img [src]="posterPreview" alt="Póster" class="movie-poster-preview" />
+      </div>
+      
+      <div class="form-group">
+        <label>Sinopsis:</label>
+        <textarea formControlName="sinopsis" required rows="4"></textarea>
+      </div>
+            
+      <div class="form-group">
+        <label>Genero:</label>
+        <input type="text" formControlName="genre" required>
+      </div>
+
+      
+      <div class="form-group">
+        <label>Director:</label>
+        <input type="text" formControlName="director" required>
+      </div>
+      
+      <div class="form-group">
+        <label>Actores:</label>
+        <input type="text" formControlName="actors" required placeholder="Separar con comas">
+      </div>
+      
+      <div class="form-group">
+        <label>Duración (minutos):</label>
+        <input type="number" formControlName="duration" required min="1">
+      </div>
+      <div class="form-actions">
+        <button type="submit" [disabled]="!movieForm.valid">Guardar</button>
+        <button type="button" (click)="cancelEdit()">Cancelar</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="movie-list">
+    <table>
+      <thead>
+        <tr>
+          <th>Póster</th>
+          <th>Título</th>
+          <th>Director</th>
+          <th>Género</th>
+          <th>Duración</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let movie of movies">
+          <td><img [src]="movie.poster" alt="{{ movie.title }}" class="movie-poster"></td>
+          <td>{{ movie.title }}</td>
+          <td>{{ movie.director }}</td>
+          <td>{{ movie.genre }}</td>
+          <td>{{ movie.duration }} min</td>
+          <td>
+            <button (click)="editMovie(movie)">Editar</button>
+            <button (click)="deleteMovie(movie.id)">Eliminar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
