@@ -15,7 +15,7 @@ export class UserService {
 
   constructor(private http: HttpClient) {
     // Intentar recuperar el usuario del localStorage al iniciar
-    const savedUser = localStorage.getItem('currentUser');
+    const savedUser = localStorage.getItem('user');
     if (savedUser) {
       this.currentUserSubject.next(JSON.parse(savedUser));
     }
@@ -52,7 +52,7 @@ export class UserService {
 
   logout(): void {
     localStorage.removeItem('token');
-    localStorage.removeItem('currentUser');
+    localStorage.removeItem('user');
     this.currentUserSubject.next(null);
   }
 

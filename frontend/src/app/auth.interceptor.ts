@@ -22,8 +22,8 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
         router.navigate(['/login']);
       } else if (err.status === 403) {
         // No autorizado: redirigir o mostrar error
-        alert('No tienes permiso para acceder a este recurso');
-        router.navigate(['/']);
+        //alert('No tienes permiso para acceder a este recurso');
+        //router.navigate(['/']);
       }
       return throwError(() => err);
     })
