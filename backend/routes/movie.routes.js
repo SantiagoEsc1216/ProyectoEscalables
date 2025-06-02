@@ -6,6 +6,7 @@ const permitirRol = require("../middlewares/roles");
 
 // Get all movies
 router.get('/', movieController.getMovies);
+router.get('/admin', verificarToken, permitirRol("admin"), movieController.getMovies);
 
 // Get a single movie
 router.get('/:id', movieController.getMovie);
@@ -14,9 +15,9 @@ router.get('/:id', movieController.getMovie);
 router.post('/', verificarToken, permitirRol("admin"), movieController.createMovie);
 
 // Update a movie
-router.put('/:id', verificarToken, permitirRol("admin"),  movieController.updateMovie);
+router.put('/:id', verificarToken, permitirRol("admin"), movieController.updateMovie);
 
 // Delete a movie
-router.delete('/:id', verificarToken, permitirRol("admin"),  movieController.deleteMovie);
+router.delete('/:id', verificarToken, permitirRol("admin"), movieController.deleteMovie);
 
 module.exports = router; 

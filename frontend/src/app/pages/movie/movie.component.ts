@@ -75,31 +75,38 @@ export class MovieComponent implements OnInit {
   }
 
   private loadReviews(movieId: string) {
-    this.reviewService.getReviewsByMovieId(movieId).subscribe(reviews => {      // Separar la reseña del usuario actual del resto de reseñas
+    this.reviewService.getReviewsByMovieId(movieId).subscribe(reviews => {
       const userStr = localStorage.getItem('user');
       if (userStr) {
         const user = JSON.parse(userStr);
-        console.log("Revies:", this.userReview)
-        console.log(reviews);
+
+        // Buscar la reseña del usuario
         this.userReview = reviews.find(r => r.user.email === user.email) || null;
 
-        if(this.userReview){
+        // Prellenar el formulario si ya existe una reseña del usuario
+        if (this.userReview) {
           this.reviewForm.patchValue({
             comment: this.userReview.comment,
             rate: this.userReview.rate
           });
+
+          // Reordenar las reseñas: la del usuario al inicio, sin duplicar
+          const otherReviews = reviews.filter(r => r.user.email !== user.email);
+          this.reviews = [this.userReview, ...otherReviews];
+        } else {
+          this.reviews = reviews;
         }
-        
-        this.reviews = reviews.filter(r => r.user.email !== user.email);
-        console.log("Revies:", this.userReview);
       } else {
         this.reviews = reviews;
       }
+
       this.calculateAverageRating();
     });
   }
 
+
   private calculateAverageRating() {
+    console.log(this.reviews);
     if (this.reviews.length === 0) {
       this.averageRating = 0;
       return;
@@ -109,21 +116,21 @@ export class MovieComponent implements OnInit {
   }
 
   private checkIfUserCanReview(movieId: string) {
-    const userStr = localStorage.getItem('currentUser');
+    const userStr = localStorage.getItem('user');
     if (userStr) {
       const user = JSON.parse(userStr);
-  
+
       // Paso 1: Verifica que haya ordenado al menos una vez
       this.orderService.getOrdersByUserAndMovie(user.id, movieId).subscribe({
         next: orders => {
           console.log("orders:", orders);
           const hasOrders = orders.length > 0;
-  
+
           if (!hasOrders) {
             this.canReview = false;
             return;
           }
-  
+
           this.reviewService.getReviewsByUserId(user.id).subscribe({
             next: reviews => {
               const existingReview = reviews.find(r => r.movieId === movieId);
@@ -174,7 +181,7 @@ export class MovieComponent implements OnInit {
 
   submitReview() {
     if (this.reviewForm.valid && this.movie) {
-      const userStr = localStorage.getItem('currentUser');
+      const userStr = localStorage.getItem('user');
       if (userStr) {
         const user = JSON.parse(userStr);
         const reviewData = {
@@ -196,6 +203,7 @@ export class MovieComponent implements OnInit {
             this.userReview = updatedReview;
             this.calculateAverageRating();
             this.isEditing = false;
+            window.location.reload();
           });
         } else {
           // Crear nueva reseña

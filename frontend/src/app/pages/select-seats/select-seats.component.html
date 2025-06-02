@@ -8,8 +8,8 @@
       <div class="col-md-9">
         <h1 class="movie-title">{{movie.title}}</h1>
         <div class="schedule-info">
-          <p class="schedule-date">{{formatDate(schedule.date)}}</p>
-          <p class="schedule-time">{{formatTime(schedule.hour)}}</p>
+          <p class="schedule-date">{{schedule.date}}</p>
+          <p class="schedule-time">{{schedule.hour}}</p>
           <p class="schedule-room">Sala {{schedule.room}}</p>
         </div>
       </div>
@@ -42,10 +42,8 @@
       <div class="row" *ngFor="let row of rows">
         <div class="row-label">{{row}}</div>
         <div class="seats-row">
-          <div *ngFor="let seat of seatsByRow[row]" 
-               class="seat" 
-               [class]="getSeatClass(seat)"
-               (click)="isSeatAvailable(seat) && toggleSeat(seat.id)">
+          <div *ngFor="let seat of seatsByRow[row]" class="seat" [class]="getSeatClass(seat)"
+            (click)="isSeatAvailable(seat) && toggleSeat(seat.id)">
             {{seat.column}}
           </div>
         </div>

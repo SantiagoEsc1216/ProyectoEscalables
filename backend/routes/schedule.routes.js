@@ -5,7 +5,9 @@ const verificarToken = require("../middlewares/auth");
 const permitirRol = require("../middlewares/roles");
 
 // Get all schedules
-router.get('/', scheduleController.getSchedules);
+router.get('/', verificarToken, scheduleController.getSchedules);
+router.get('/admin', verificarToken, permitirRol("admin"), scheduleController.getSchedules);
+
 
 // Get schedules by movie ID
 router.get('/movie/:movieId', scheduleController.getSchedulesByMovieId);

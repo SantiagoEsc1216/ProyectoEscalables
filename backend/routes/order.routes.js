@@ -4,6 +4,7 @@ const orderController = require('../controllers/order.controller');
 const verificarToken = require("../middlewares/auth");
 const permitirRol = require("../middlewares/roles");
 
+
 // Get all orders (admin only)
 router.get('/', verificarToken, permitirRol("admin"), orderController.getOrders);
 

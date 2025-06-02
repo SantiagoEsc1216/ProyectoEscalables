@@ -1,4 +1,5 @@
 export interface Food {
+  _id: string;
   id: string;
   name: string;
   image: string;

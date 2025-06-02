@@ -9,7 +9,7 @@ import { CommonModule, DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-schedule-management',
-  templateUrl:'./schedule-management.component.html' ,
+  templateUrl: './schedule-management.component.html',
   styleUrls: ['./schedule-management.component.css'],
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, DatePipe]
@@ -46,10 +46,10 @@ export class ScheduleManagementComponent implements OnInit {
   generateSeats(): Seat[] {
     const seats: Seat[] = [];
     const rows = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
-    
+
     for (let rowIndex = 0; rowIndex < rows.length; rowIndex++) {
       const rowLetter = rows[rowIndex];
-      
+
       for (let column = 1; column <= 20; column++) {
         const seat: Seat = {
           id: `${rowLetter}${column}`, // Ej: A1, A2, B1, etc.
@@ -60,7 +60,7 @@ export class ScheduleManagementComponent implements OnInit {
         seats.push(seat);
       }
     }
-    
+
     return seats;
   }
 
@@ -74,7 +74,7 @@ export class ScheduleManagementComponent implements OnInit {
   }
 
   loadSchedules() {
-    this.scheduleService.getSchedules().subscribe(schedules => {
+    this.scheduleService.getSchedulesAdmin().subscribe(schedules => {
       this.schedules = schedules;
       console.log(this.schedules);
     });
@@ -115,7 +115,7 @@ export class ScheduleManagementComponent implements OnInit {
         ...this.scheduleForm.value,
         seats: this.generateSeats() // Agregar los asientos generados al horario
       };
-      
+
       if (this.editingSchedule) {
         this.scheduleService.updateSchedule(this.editingSchedule.id, scheduleData).subscribe({
           next: () => {
@@ -152,21 +152,21 @@ export class ScheduleManagementComponent implements OnInit {
   showSeats(schedule: Schedule) {
     this.selectedSchedule = schedule;
     this.showSeatsModal = true;
-  
+
     // Reiniciar la matriz de ocupación
     this.seats = Array(10).fill(null).map(() => Array(20).fill(false));
-  
+
     // Mapear los asientos ocupados desde el horario
     schedule.seats.forEach(seat => {
       const rowIndex = seat.row.charCodeAt(0) - 65; // 'A' = 65
       const colIndex = seat.column - 1;
-  
+
       if (rowIndex >= 0 && rowIndex < 10 && colIndex >= 0 && colIndex < 20) {
         this.seats[rowIndex][colIndex] = !seat.free; // ocupado = !free
       }
     });
   }
-  
+
 
 
 
@@ -184,7 +184,7 @@ export class ScheduleManagementComponent implements OnInit {
       const rowLetter = this.getRowLetter(row);
       const seatId = `${rowLetter}${col + 1}`;
       const newStatus = !this.seats[row][col];
-      
+
       this.scheduleService.updateSeatAvailability(
         this.selectedSchedule.id,
         seatId,
@@ -205,7 +205,7 @@ export class ScheduleManagementComponent implements OnInit {
     const rowLetter = this.getRowLetter(row);
     const seatNumber = col + 1;
     const seatId = `${rowLetter}${seatNumber}`;
-    
+
     return {
       id: seatId,
       row: rowLetter,

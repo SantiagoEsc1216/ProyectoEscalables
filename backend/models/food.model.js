@@ -22,7 +22,8 @@ const foodSchema = new mongoose.Schema({
     min: 0
   }
 }, {
-  timestamps: false
+  timestamps: false,
+  collection: 'food'
 });
 
 const Food = mongoose.model('Food', foodSchema);

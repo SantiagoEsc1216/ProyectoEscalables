@@ -7,7 +7,7 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-movie-management',
   templateUrl: './movie-management.component.html',
-  styleUrls:['movie-management.component.css'],
+  styleUrls: ['movie-management.component.css'],
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule]
 })
@@ -16,7 +16,7 @@ export class MovieManagementComponent implements OnInit {
   movieForm: FormGroup;
   showForm = false;
   editingMovie: Movie | null = null;
-  
+
   posterPreview: string | null = null;
 
   constructor(
@@ -39,7 +39,7 @@ export class MovieManagementComponent implements OnInit {
   }
 
   loadMovies() {
-    this.movieService.getMovies().subscribe(movies => {
+    this.movieService.getAdminMovies().subscribe(movies => {
       this.movies = movies;
     });
   }
@@ -76,7 +76,7 @@ export class MovieManagementComponent implements OnInit {
   onSubmit() {
     if (this.movieForm.valid) {
       const movieData = this.movieForm.value;
-      
+
       if (this.editingMovie) {
         this.movieService.updateMovie(this.editingMovie.id, movieData).subscribe(() => {
           this.loadMovies();

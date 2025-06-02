@@ -17,8 +17,11 @@ export class ScheduleService {
   getSchedules(): Observable<Schedule[]> {
     return this.http.get<Schedule[]>(this.apiUrl);
   }
+  getSchedulesAdmin(): Observable<Schedule[]> {
+    return this.http.get<Schedule[]>(`${this.apiUrl}/admin`);
+  }
 
-  
+
 
   getSchedulesByMovieId(movieId: string): Observable<Schedule[]> {
     return this.http.get<Schedule[]>(`${this.apiUrl}/movie/${movieId}`);

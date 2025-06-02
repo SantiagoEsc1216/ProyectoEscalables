@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const usuarioCtrl = require("../controllers/user.controller");
+console.log("✅ user.routes.js cargado"); // <--- Agrega esta línea
 
 
 router.post("/register", usuarioCtrl.registerUser);
